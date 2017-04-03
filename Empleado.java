@@ -25,8 +25,7 @@ public class Empleado extends Trabajador {
 		this.sueldo = sueldo;
 	}
 	
-	
-	
+		
 	
 
 }
