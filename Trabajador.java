@@ -19,6 +19,5 @@
 
 	public int getDni() {
 		return dni;
-	}
-		
+	}		
 }
