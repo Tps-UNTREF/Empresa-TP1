@@ -1,6 +1,5 @@
 import java.util.StringTokenizer;
 
-// Nico was here
 public class Empleado extends Trabajador {
 	private String cuil;
 	private double sueldo;
@@ -8,8 +7,9 @@ public class Empleado extends Trabajador {
 	public Empleado(String nombre, int dni,double sueldo) {
 		super(nombre, dni);
 		setCuil(dni);
-		
+		setSueldo(sueldo);
 	}
+	
 	public String toString(){
 		return "Nombre: " + super.getNombre() + " Cuil: " + getCuil() + " Sueldo: " + getSueldo();
 	}
