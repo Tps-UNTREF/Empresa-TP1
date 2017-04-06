@@ -1,15 +1,15 @@
 import java.util.StringTokenizer;
 
-
-public class Empleado extends Trabajador {
+public class Empleado extends Trabajador implements Comparable<Empleado> {
 	private String cuil;
 	private double sueldo;
 
 	public Empleado(String nombre, int dni,double sueldo) {
 		super(nombre, dni);
 		setCuil(dni);
-		
+		setSueldo(sueldo);
 	}
+	
 	public String toString(){
 		return "Nombre: " + super.getNombre() + " Cuil: " + getCuil() + " Sueldo: " + getSueldo();
 	}
@@ -48,5 +48,15 @@ public class Empleado extends Trabajador {
 	public double getSueldo(){
 		return this.sueldo;
 	}
-
+	
+	@Override
+	public int compareTo(Empleado o) {
+		if (this.sueldo < o.sueldo){
+			return 1;
+		}else if(this.sueldo > o.sueldo) {
+			return -1;
+			}
+		return super.getDni().compareTo(o.getDni());
+	}
+		
 }

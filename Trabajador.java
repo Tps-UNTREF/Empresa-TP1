@@ -1,5 +1,5 @@
 
- abstract class Trabajador {
+ abstract class Trabajador{
 	
 	private String nombre;
 	private int dni;
@@ -17,7 +17,7 @@
 		this.nombre = nombre;
 	}
 
-	public int getDni() {
+	public Integer getDni() {
 		return dni;
 	}		
 }
