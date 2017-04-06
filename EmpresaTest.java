@@ -6,8 +6,10 @@ import org.junit.Test;
 public class EmpresaTest {
 
 	@Test
-	public void test() {
-		fail("Not yet implemented");
+	public void CambiarNombreAEmpleado() {
+		Empleado empleado = new Empleado("Ricky Centurion",20544653,150000.0);
+		empleado.setCuil(20544654);
+		assertEquals("20-20544654-7",empleado.getCuil());
 	}
 
 }
