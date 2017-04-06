@@ -2,3 +2,11 @@
 /EmpresaTest.class
 /Trabajador.class
 /Empleado.class
+/EmpleadoPorHora.class
+/EmpleadoPorHoraAComision.class
+/HorasTrabajadasInvalidasExcepcion.class
+/ErrorVentasRealizadas.class
+/ErrorDeComision.class
+/Voluntario.class
+/Ejecutivo.class
+/PremioInvalidoExcepcion.class
