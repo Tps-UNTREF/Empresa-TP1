@@ -5,11 +5,10 @@ import java.util.ArrayList;
 
 class Empresa {
 	private static ArrayList<Trabajador> trabajadores = new ArrayList<>();
-	private static int repetir;
+	private static int repetir = 1;
 	
 	public static void main(String[] args) throws NumberFormatException, IOException{
 		seleccionadorDeMenu();
-
 	}
 	
 	private static void seleccionadorDeMenu() throws NumberFormatException, IOException{
@@ -19,38 +18,42 @@ class Empresa {
 					+ "2-Agregar un trabajador\n"
 					+ "3-Obtener un trabajador para modificarle los datos\n"
 					+ "4-Obtener la lista de los trabajadores\n"
-					+ "5-terminar\n");
+					+ "5-terminar");
 			BufferedReader lector = new BufferedReader(new InputStreamReader(System.in));
-			int opcion = Integer.parseInt(lector.readLine());
-			repetir = 0;
-			switch (opcion) {
-				case 1:
-					System.out.println("Ingrese dni del trabajador que quiera la descripcion: ");
-					int dni = Integer.parseInt(lector.readLine());
-					getDescripcionTrabajador(dni);
-					Terminar();
-					break;
-				case 2:
-					System.out.println("Elige el tipo de trabajador que quieras crear: 1-Empleado 2-Voluntario 3-Ejecutivo 4-EmpleadoPorHora 5-EmpleadoPorHoraAComision");
-					crearTrabajador(Integer.parseInt(lector.readLine()));
-					agregarTrabajador(null);
-					Terminar();
-					break;
-				case 3:
-					int dni2 = Integer.parseInt(lector.readLine());
-					obtenerTrabajador(dni2);
-					Terminar();
-					break;
-				case 4:
-					listarSueldoDeTrabajadores();
-					Terminar();
-					break;
-				case 5:
-					repetir = 0;
-					break;
+			try {
+				switch (valorEntre(Integer.parseInt(lector.readLine()),1,5)) {
+					case 1:
+						getDescripcionTrabajador(Integer.parseInt(msgUsuario("Ingrese dni del trabajador " + 
+								"que quiera la descripcion: ", lector)));
+						Terminar();
+						break;
+					case 2:
+						crearTrabajador(Integer.parseInt(msgUsuario("Elige el tipo de trabajador " + 
+								"que quieras crear: \n" + 
+								"1-Empleado \n" + 
+								"2-Voluntario \n" + 
+								"3-Ejecutivo \n" + 
+								"4-EmpleadoPorHora \n" + 
+								"5-EmpleadoPorHoraAComision", lector)));
+						agregarTrabajador(null);
+						Terminar();
+						break;
+					case 3:
+						obtenerTrabajador(Integer.parseInt(msgUsuario("Inserte dni: ", lector)));
+						Terminar();
+						break;
+					case 4:
+						listarSueldoDeTrabajadores();
+						Terminar();
+						break;
+					case 5:
+						repetir = 0;
+						break;
+				}
+			} catch (ValorFueraDeRangoException e) {
+				System.out.print(e.error() + "\n");
 			}
 		}while(repetir == 1);
-		
 	}
 	
 	private static void crearTrabajador(int trabajador) throws IOException{
@@ -58,52 +61,32 @@ class Empresa {
 		String nombre;
 		int dni;
 		double sueldo;
+		
+		nombre = msgUsuario("Inserte nombre: ", lector);
+		dni = Integer.parseInt(msgUsuario("Inserte dni: ", lector));
+		
 		switch(trabajador){
-			case 1://empleado
-				System.out.print("Inserte nombre: ");
-				nombre = lector.readLine();
-				System.out.print("Inserte dni: ");
-				dni = Integer.parseInt(lector.readLine());
-				System.out.print("Inserte sueldo: ");
-				sueldo = Integer.parseInt(lector.readLine());
+			case 1://Empleado
+				sueldo = Integer.parseInt(msgUsuario("Inserte sueldo: ", lector));
 				trabajadores.add(new Empleado(nombre,dni,sueldo));
 				break;
 			case 2://voluntario
-				 System.out.println("Ingrese nombre: ");
-				 nombre = lector.readLine();
-				 System.out.println("Ingrese DNI: ");
 				 dni = Integer.parseInt(lector.readLine());
 				 trabajadores.add(new Voluntario(nombre,dni));
 				break;
 			case 3://Ejecutivo
-				System.out.print("ingresar nombre : ");
-				nombre = lector.readLine();
-				System.out.print("ingresar dni :");
-				dni = Integer.parseInt(lector.readLine());
-				System.out.print("ingresar sueldo");
-				sueldo = Integer.parseInt(lector.readLine());
+				sueldo = Integer.parseInt(msgUsuario("ingresar sueldo", lector));
 				trabajadores.add(new Ejecutivo(nombre, dni, sueldo));
 				break;
-			case 4://
-				System.out.print("Inserte nombre: ");
-				nombre = lector.readLine();
-				System.out.print("Inserte dni: ");
-				dni = Integer.parseInt(lector.readLine());
-				System.out.print("Inserte sueldo por hora: ");
-				sueldo = Integer.parseInt(lector.readLine());
+			case 4://EmpleadoPorHora
+				sueldo = Integer.parseInt(msgUsuario("Inserte sueldo por hora: ", lector));
 				trabajadores.add(new EmpleadoPorHora(nombre,dni,sueldo));
 				break;
-			case 5:
-				 System.out.println("Ingrese nombre: ");
-				 nombre = lector.readLine();
-				 System.out.println("Ingrese DNI: ");
-				 dni = Integer.parseInt(lector.readLine());
-				 System.out.println("Ingrese el sueldo por hora: ");
-				 double sueldoPorHora = Integer.parseInt(lector.readLine());
-				 System.out.println("Ingrese el porcentaje de comisión: ");
-				 int comision = Integer.parseInt(lector.readLine());
+			case 5://EmpleadoPorHoraAComision
+				 double sueldoPorHora = Integer.parseInt(msgUsuario("Ingrese el sueldo por hora: ", lector));
+				 int comision = Integer.parseInt(msgUsuario("Ingrese el porcentaje de comisión: ", lector));
 				 trabajadores.add(new EmpleadoPorHoraAComision(nombre, dni, sueldoPorHora, comision));
-				break;	
+				break;
 		}	
 	}
 
@@ -111,10 +94,7 @@ class Empresa {
 		BufferedReader lector2 = new BufferedReader(new InputStreamReader(System.in));
 		System.out.println("Desea terminar? 1-Seguir 0-Terminar");
 		repetir = Integer.parseInt(lector2.readLine());
-	
 	}
-	
-	
 	
 	public static void getDescripcionTrabajador(int dni){ //la cambie de String a void
 		for(Trabajador t: trabajadores){
@@ -151,8 +131,21 @@ class Empresa {
 	}
 	
 	public static void listarSueldoDeTrabajadores(){
-		
+		for(Trabajador t: trabajadores){
+			System.out.println(t.toString());
+		}
 	}
 	
+	private static String msgUsuario(String msg, BufferedReader in) throws IOException {
+		  System.out.print(msg);
+		  return in.readLine();
+	}
+	
+	private static int valorEntre(int valor, int min, int max) throws ValorFueraDeRangoException {
+		if (valor > max || valor < min) {
+			throw new ValorFueraDeRangoException();
+		}
+		return valor;
+	}
 
 }

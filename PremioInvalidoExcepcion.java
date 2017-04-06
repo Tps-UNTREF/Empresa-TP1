@@ -1,4 +1,5 @@
 
+@SuppressWarnings("serial")
 public class PremioInvalidoExcepcion extends Exception {
 
 	public PremioInvalidoExcepcion() {}
