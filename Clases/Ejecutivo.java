@@ -33,7 +33,7 @@ public class Ejecutivo extends Empleado {
 	}
 	
 	public String toString() {
-		return "Nombre: " + super.getNombre() + " DNI: " + super.getDni() + " Sueldo: " + this.getSueldo();
+		return "Tipo: Ejecutivo" +" Nombre: " + super.getNombre() + " CUIL: " + super.getCuil() + " Sueldo: " + this.getSueldo();
 	}
 
 }

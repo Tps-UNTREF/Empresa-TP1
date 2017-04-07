@@ -1,14 +1,11 @@
 package Clases;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 
 import Excepciones.ValorFueraDeRangoException;
 
@@ -79,7 +76,6 @@ class Empresa {
 				trabajadores.add(new Empleado(nombre,dni,sueldo));
 				break;
 			case 2://Voluntario
-				 dni = Integer.parseInt(lector.readLine());
 				 trabajadores.add(new Voluntario(nombre,dni));
 				break;
 			case 3://Ejecutivo
@@ -126,16 +122,28 @@ class Empresa {
 	}
 	
 	public static void listarSueldoDeTrabajadores() throws IOException{
-		Collections.sort(trabajadores);
+		ArrayList<Empleado> empleados = new ArrayList<>();
+		for(Trabajador t: trabajadores){
+			if(t instanceof Empleado){
+				empleados.add((Empleado)t);
+			}
+		}
+		Collections.sort(empleados);
 		int i = 0;
 		File f = new File("Extras/empleados.txt");
 		System.out.println(f.exists());
 		FileWriter fw = new FileWriter(f);
-		
-		for(Trabajador t: trabajadores){
-				fw.write(i+"."+t.toString());
-				System.out.println(i+"."+t.toString());
+		for(Empleado e: empleados){
+				fw.write(i+"."+e.toString()+" \n");
+				System.out.println(i+"."+e.toString()+" \n");
 				i++;
+		}
+		for(Trabajador t: trabajadores){
+			if(t instanceof Voluntario){
+				fw.write(i+"."+t.toString()+" \n");
+				System.out.println(i+"."+t.toString()+" \n");
+				i++;
+			}
 		}
 		fw.close();
 	}
