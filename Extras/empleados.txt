@@ -1,3 +1,1 @@
-0.Tipo: Ejecutivo Nombre: matij CUIL: 00-1235415-1 Sueldo: 5000.0 
-1.Tipo: EmpleadoPorHoraAComision Nombre: rigobertitoCuil : 00-234928-10.0Comision :20 
-2.Tipo: Voluntario Nombre: franco DNI: 213512 
+0.Tipo: Empleado Nombre: Franco Cuil: 00-38991911-0 Sueldo: 16000.0 
