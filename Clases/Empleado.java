@@ -1,3 +1,4 @@
+package Clases;
 import java.util.StringTokenizer;
 
 public class Empleado extends Trabajador implements Comparable<Empleado> {

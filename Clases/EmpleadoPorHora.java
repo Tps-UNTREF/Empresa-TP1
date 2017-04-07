@@ -1,3 +1,6 @@
+package Clases;
+import Excepciones.HorasTrabajadasInvalidasExcepcion;
+
 
 public class EmpleadoPorHora extends Empleado {
 

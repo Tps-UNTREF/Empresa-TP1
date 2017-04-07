@@ -1,3 +1,4 @@
+package Clases;
 
  abstract class Trabajador{
 	

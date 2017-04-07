@@ -1,3 +1,4 @@
+package Excepciones;
 
 public class ErrorVentasRealizadas extends Exception {
 

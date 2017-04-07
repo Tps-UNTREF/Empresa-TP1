@@ -1,11 +1,14 @@
+package Clases;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+import Excepciones.ValorFueraDeRangoException;
+
 class Empresa {
 	private static ArrayList<Trabajador> trabajadores = new ArrayList<>();
-	private static int repetir = 1;
+	private static boolean repetir = true;
 	
 	public static void main(String[] args) throws NumberFormatException, IOException{
 		seleccionadorDeMenu();
@@ -23,7 +26,7 @@ class Empresa {
 			try {
 				switch (valorEntre(Integer.parseInt(lector.readLine()),1,5)) {
 					case 1:
-						getDescripcionTrabajador(Integer.parseInt(msgUsuario("Ingrese dni del trabajador " + 
+						getDescripcionTrabajador(Integer.parseInt(msgUsuario("Ingrese DNI del trabajador " + 
 								"que quiera la descripcion: ", lector)));
 						Terminar();
 						break;
@@ -39,7 +42,7 @@ class Empresa {
 						Terminar();
 						break;
 					case 3:
-						obtenerTrabajador(Integer.parseInt(msgUsuario("Inserte dni: ", lector)));
+						System.out.print(obtenerTrabajador(Integer.parseInt(msgUsuario("Inserte DNI: ", lector))).toString());
 						Terminar();
 						break;
 					case 4:
@@ -47,13 +50,13 @@ class Empresa {
 						Terminar();
 						break;
 					case 5:
-						repetir = 0;
+						repetir = !repetir;
 						break;
 				}
 			} catch (ValorFueraDeRangoException e) {
 				System.out.print(e.error() + "\n");
 			}
-		}while(repetir == 1);
+		}while(repetir);
 	}
 	
 	private static void crearTrabajador(int trabajador) throws IOException{
@@ -63,14 +66,14 @@ class Empresa {
 		double sueldo;
 		
 		nombre = msgUsuario("Inserte nombre: ", lector);
-		dni = Integer.parseInt(msgUsuario("Inserte dni: ", lector));
+		dni = Integer.parseInt(msgUsuario("Inserte DNI: ", lector));
 		
 		switch(trabajador){
 			case 1://Empleado
 				sueldo = Integer.parseInt(msgUsuario("Inserte sueldo: ", lector));
 				trabajadores.add(new Empleado(nombre,dni,sueldo));
 				break;
-			case 2://voluntario
+			case 2://Voluntario
 				 dni = Integer.parseInt(lector.readLine());
 				 trabajadores.add(new Voluntario(nombre,dni));
 				break;
@@ -93,7 +96,7 @@ class Empresa {
 	private static void Terminar() throws NumberFormatException, IOException {
 		BufferedReader lector2 = new BufferedReader(new InputStreamReader(System.in));
 		System.out.println("Desea terminar? 1-Seguir 0-Terminar");
-		repetir = Integer.parseInt(lector2.readLine());
+		repetir = Integer.parseInt(lector2.readLine()) == 1;
 	}
 	
 	public static void getDescripcionTrabajador(int dni){ //la cambie de String a void
@@ -111,19 +114,6 @@ class Empresa {
 		for(Trabajador t: trabajadores){
 			if(dni == t.getDni()){
 				return t;
-				/*
-				if(t instanceof Empleado){
-					return 
-				}else if(t instanceof Ejecutivo){
-					return 
-				}else if(t instanceof Voluntario){
-					return
-				}else if(t instanceof EmpleadoPorHora){
-					return
-				}else if(t instanceof EmpleadoPorHoraAComision){
-					
-				}
-				*/
 			}
 		}
 		System.out.println("No se encontro el trabajador");

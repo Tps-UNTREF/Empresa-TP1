@@ -1,3 +1,4 @@
+package Excepciones;
 
 @SuppressWarnings("serial")
 public class ValorFueraDeRangoException extends Exception {
