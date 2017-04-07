@@ -112,13 +112,31 @@ class Empresa {
 		}
 	}
 	
+	
+	
+	
 	private static void modificarTrabajador() {
 		BufferedReader lector = new BufferedReader(new InputStreamReader(System.in));
 		boolean volver = false;
 		do {
 			try {
 				Trabajador t = obtenerTrabajador(Integer.parseInt(msgUsuario("Inserte DNI: ", lector)));
-				
+				if (t instanceof Empleado) {
+					modificarEmpleado((Empleado)t);
+					break;
+				} else if (t instanceof Voluntario) {
+					modificarVoluntario((Voluntario)t);
+					break;
+				} else if (t instanceof Ejecutivo) {
+					modificarEjecutivo((Ejecutivo)t);
+					break;
+				} else if (t instanceof EmpleadoPorHora) {
+					modificarEmpleadoPorHora((EmpleadoPorHora)t);
+					break;
+				} else if (t instanceof EmpleadoPorHoraAComision) {
+					modificarEmpleadoPorHoraAComision((EmpleadoPorHoraAComision)t);
+					break;
+				}
 			} catch (Exception e) {
 				System.out.println("Error: vuelva a intertarlo");
 				volver = !volver;
@@ -126,6 +144,27 @@ class Empresa {
 		} while (volver);
 	}
 	
+	private static void modificarEmpleadoPorHoraAComision(
+			EmpleadoPorHoraAComision t) {
+
+	}
+
+	private static void modificarEmpleadoPorHora(EmpleadoPorHora t) {
+		
+	}
+
+	private static void modificarEjecutivo(Ejecutivo t) {
+		
+	}
+
+	private static void modificarVoluntario(Voluntario t) {
+		
+	}
+
+	private static void modificarEmpleado(Empleado t) {
+		
+	}
+
 	public static Trabajador obtenerTrabajador(int dni){
 		for(Trabajador t: trabajadores){
 			if(dni == t.getDni()){
@@ -136,7 +175,6 @@ class Empresa {
 	}
 	
 	public static void listarSueldoDeTrabajadores() throws IOException{
-		Collections.sort(trabajadores);
 		int i = 0;
 		File f = new File("Extras/empleados.txt");
 		System.out.println(f.exists());

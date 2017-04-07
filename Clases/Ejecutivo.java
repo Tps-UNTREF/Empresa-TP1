@@ -1,8 +1,7 @@
 package Clases;
 import Excepciones.PremioInvalidoExcepcion;
-import Interfaces.TrabajadorConSueldo;
 
-public class Ejecutivo extends Empleado implements TrabajadorConSueldo {
+public class Ejecutivo extends Empleado {
 	
 	private double premio;
 

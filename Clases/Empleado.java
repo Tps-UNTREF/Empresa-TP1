@@ -1,9 +1,7 @@
 package Clases;
 import java.util.StringTokenizer;
 
-import Interfaces.TrabajadorConSueldo;
-
-public class Empleado extends Trabajador implements Comparable<Empleado>, TrabajadorConSueldo {
+public class Empleado extends Trabajador implements Comparable<Empleado> {
 	private String cuil;
 	private double sueldo;
 
