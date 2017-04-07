@@ -1,0 +1,1 @@
+0.Nombre: mati Cuil: 00-123-7 Sueldo: 123.01.Nombre: franco Cuil: 00-100-8 Sueldo: 100.0
