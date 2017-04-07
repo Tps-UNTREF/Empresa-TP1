@@ -1,9 +1,9 @@
 package Clases;
 import Excepciones.ErrorDeComision;
 import Excepciones.ErrorVentasRealizadas;
+import Interfaces.TrabajadorConSueldo;
 
-
-public class EmpleadoPorHoraAComision extends EmpleadoPorHora {
+public class EmpleadoPorHoraAComision extends EmpleadoPorHora implements TrabajadorConSueldo {
 
 	int comision;
 	int ventasRealizadas;

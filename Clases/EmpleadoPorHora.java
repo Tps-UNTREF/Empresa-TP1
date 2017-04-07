@@ -1,8 +1,9 @@
 package Clases;
 import Excepciones.HorasTrabajadasInvalidasExcepcion;
+import Interfaces.TrabajadorConSueldo;
 
 
-public class EmpleadoPorHora extends Empleado {
+public class EmpleadoPorHora extends Empleado implements TrabajadorConSueldo {
 
 	int horasTrabajadas;
 	

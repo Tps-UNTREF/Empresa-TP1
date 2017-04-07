@@ -38,11 +38,10 @@ class Empresa {
 								"3-Ejecutivo \n" + 
 								"4-EmpleadoPorHora \n" + 
 								"5-EmpleadoPorHoraAComision", lector)));
-						agregarTrabajador(null);
 						Terminar();
 						break;
 					case 3:
-						System.out.print(obtenerTrabajador(Integer.parseInt(msgUsuario("Inserte DNI: ", lector))).toString());
+						modificarTrabajador();
 						Terminar();
 						break;
 					case 4:
@@ -58,7 +57,7 @@ class Empresa {
 			}
 		}while(repetir);
 	}
-	
+
 	private static void crearTrabajador(int trabajador) throws IOException{
 		BufferedReader lector = new BufferedReader(new InputStreamReader(System.in));
 		String nombre;
@@ -106,8 +105,19 @@ class Empresa {
 			}
 		}
 	}
-	public static void agregarTrabajador(Trabajador trabajador){
-		trabajadores.add(trabajador);
+	
+	private static void modificarTrabajador() {
+		BufferedReader lector = new BufferedReader(new InputStreamReader(System.in));
+		boolean volver = false;
+		do {
+			try {
+				Trabajador t = obtenerTrabajador(Integer.parseInt(msgUsuario("Inserte DNI: ", lector)));
+				
+			} catch (Exception e) {
+				System.out.println("Error: vuelva a intertarlo");
+				volver = !volver;
+			}			
+		} while (volver);
 	}
 	
 	public static Trabajador obtenerTrabajador(int dni){
@@ -116,7 +126,6 @@ class Empresa {
 				return t;
 			}
 		}
-		System.out.println("No se encontro el trabajador");
 		return null;
 	}
 	
