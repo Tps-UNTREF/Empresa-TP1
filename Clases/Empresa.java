@@ -1,8 +1,14 @@
 package Clases;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import Excepciones.ValorFueraDeRangoException;
 
@@ -38,7 +44,6 @@ class Empresa {
 								"3-Ejecutivo \n" + 
 								"4-EmpleadoPorHora \n" + 
 								"5-EmpleadoPorHoraAComision", lector)));
-						agregarTrabajador(null);
 						Terminar();
 						break;
 					case 3:
@@ -120,10 +125,19 @@ class Empresa {
 		return null;
 	}
 	
-	public static void listarSueldoDeTrabajadores(){
+	public static void listarSueldoDeTrabajadores() throws IOException{
+		Collections.sort(trabajadores);
+		int i = 0;
+		File f = new File("Extras/empleados.txt");
+		System.out.println(f.exists());
+		FileWriter fw = new FileWriter(f);
+		
 		for(Trabajador t: trabajadores){
-			System.out.println(t.toString());
+				fw.write(i+"."+t.toString());
+				System.out.println(i+"."+t.toString());
+				i++;
 		}
+		fw.close();
 	}
 	
 	private static String msgUsuario(String msg, BufferedReader in) throws IOException {
