@@ -66,6 +66,6 @@ public class EmpleadoPorHoraAComision extends EmpleadoPorHora {
 	
 	public String toString(){
 		
-		return "Nombre : " + super.getNombre() + "DNI : " + super.getDni() + super.getSueldo() + "Comision :" + this.getComision();
+		return "Tipo: EmpleadoPorHoraAComision"+" Nombre: " + super.getNombre() + "Cuil: " + super.getCuil() + super.getSueldo() + " Comision: " + this.getComision();
 	}
 }

@@ -1,5 +1,6 @@
 package Excepciones;
 
+@SuppressWarnings("serial")
 public class ErrorDeComision extends Exception {
 
 	public ErrorDeComision() {

@@ -42,7 +42,7 @@ public class EmpleadoPorHora extends Empleado {
 	}
 	
 	public String toString(){
-		return "Nombre :" + super.getNombre() + "DNI :" + super.getDni() + "Sueldo por hora :" + super.getSueldo();
+		return "Tipo: EmpleadoPorHora"+" Nombre: " + super.getNombre() + " Cuil :" + super.getCuil() + " Sueldo por hora: " + super.getSueldo();
 		
 	}
 }
