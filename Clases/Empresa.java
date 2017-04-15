@@ -12,11 +12,21 @@ import Excepciones.ValorFueraDeRangoException;
 class Empresa {
 	private static ArrayList<Trabajador> trabajadores = new ArrayList<>();
 	private static boolean repetir = true;
-	
+	/**
+	 * pre: 
+	 * 
+	 * post:
+	 * 
+	 */
 	public static void main(String[] args) throws NumberFormatException, IOException{
 		seleccionadorDeMenu();
 	}
-	
+	/**
+	 * pre: 
+	 * 
+	 * post:
+	 * 
+	 */
 	private static void seleccionadorDeMenu() throws NumberFormatException, IOException{
 		do{
 			System.out.println("Eliga una opcion: \n"
@@ -60,7 +70,12 @@ class Empresa {
 			}
 		}while(repetir);
 	}
-	
+	/**
+	 * pre: 
+	 * 
+	 * post:
+	 * 
+	 */
 	private static void crearTrabajador(int trabajador) throws IOException{
 		BufferedReader lector = new BufferedReader(new InputStreamReader(System.in));
 		String nombre;
@@ -79,7 +94,7 @@ class Empresa {
 				 trabajadores.add(new Voluntario(nombre,dni));
 				break;
 			case 3://Ejecutivo
-				sueldo = Integer.parseInt(msgUsuario("ingresar sueldo", lector));
+				sueldo = Integer.parseInt(msgUsuario("ingresar sueldo: ", lector));
 				trabajadores.add(new Ejecutivo(nombre, dni, sueldo));
 				break;
 			case 4://EmpleadoPorHora
@@ -93,13 +108,23 @@ class Empresa {
 				break;
 		}	
 	}
-
+	/**
+	 * pre: 
+	 * 
+	 * post:
+	 * 
+	 */
 	private static void Terminar() throws NumberFormatException, IOException {
 		BufferedReader lector2 = new BufferedReader(new InputStreamReader(System.in));
 		System.out.println("Desea terminar? 1-Seguir 0-Terminar");
 		repetir = Integer.parseInt(lector2.readLine()) == 1;
 	}
-	
+	/**
+	 * pre: 
+	 * 
+	 * post:
+	 * 
+	 */
 	public static void getDescripcionTrabajador(int dni){ //la cambie de String a void
 		for(Trabajador t: trabajadores){
 			if(dni == t.getDni()){
@@ -110,7 +135,12 @@ class Empresa {
 	public static void agregarTrabajador(Trabajador trabajador){
 		trabajadores.add(trabajador);
 	}
-	
+	/**
+	 * pre: 
+	 * 
+	 * post:
+	 * 
+	 */
 	public static Trabajador obtenerTrabajador(int dni){
 		for(Trabajador t: trabajadores){
 			if(dni == t.getDni()){
@@ -120,7 +150,12 @@ class Empresa {
 		System.out.println("No se encontro el trabajador");
 		return null;
 	}
-	
+	/**
+	 * pre: 
+	 * 
+	 * post:
+	 * 
+	 */
 	public static void listarSueldoDeTrabajadores() throws IOException{
 		ArrayList<Empleado> empleados = new ArrayList<>();
 		for(Trabajador t: trabajadores){
@@ -147,12 +182,22 @@ class Empresa {
 		}
 		fw.close();
 	}
-	
+	/**
+	 * pre: 
+	 * 
+	 * post:
+	 * 
+	 */
 	private static String msgUsuario(String msg, BufferedReader in) throws IOException {
 		  System.out.print(msg);
 		  return in.readLine();
 	}
-	
+	/**
+	 * pre: 
+	 * 
+	 * post:
+	 * 
+	 */
 	private static int valorEntre(int valor, int min, int max) throws ValorFueraDeRangoException {
 		if (valor > max || valor < min) {
 			throw new ValorFueraDeRangoException();
