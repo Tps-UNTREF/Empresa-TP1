@@ -2,7 +2,6 @@ package Clases;
 import Excepciones.ErrorDeComision;
 import Excepciones.ErrorVentasRealizadas;
 
-
 public class EmpleadoPorHoraAComision extends EmpleadoPorHora {
 
 	int comision;
