@@ -22,6 +22,7 @@ class Empresa {
 	 * 
 	 */
 	public static void main(String[] args) throws NumberFormatException, IOException{
+		trabajadores.add(new Voluntario("Franco", 38991911));
 		seleccionadorDeMenu();
 	}
 	/**
@@ -73,12 +74,14 @@ class Empresa {
 			}
 		}while(repetir);
 	}
+
 	/**
 	 * pre: 
 	 * 
 	 * post:
 	 * 
 	 */
+
 	private static void crearTrabajador(int trabajador) throws IOException{
 		BufferedReader lector = new BufferedReader(new InputStreamReader(System.in));
 		String nombre;
