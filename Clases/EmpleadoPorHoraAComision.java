@@ -6,16 +6,31 @@ public class EmpleadoPorHoraAComision extends EmpleadoPorHora {
 
 	int comision;
 	int ventasRealizadas;
-
+	/**
+	 * pre : 
+	 * 
+	 * post:
+	 * 
+	 */
 	public EmpleadoPorHoraAComision(String nombre, int dni, double sueldoPorHora , int comision) {
 		super(nombre, dni, sueldoPorHora);
 		this.comision = comision;
 	}
-
+	/**
+	 * pre : 
+	 * 
+	 * post:
+	 * 
+	 */
 	public int getComision() {
 		return comision;
 	}
-
+	/**
+	 * pre : 
+	 * 
+	 * post:
+	 * 
+	 */
 	public void setCambiarComision(int comision) {
 		
 		try{
@@ -35,12 +50,22 @@ public class EmpleadoPorHoraAComision extends EmpleadoPorHora {
 			}
 		
 	}
-
+	/**
+	 * pre : 
+	 * 
+	 * post:
+	 * 
+	 */
 	public int getVentasRealizadas() {
 		
 		return ventasRealizadas;
 	}
-
+	/**
+	 * pre : 
+	 * 
+	 * post:
+	 * 
+	 */
 	public void setVentasRealizadas(int ventasRealizadas) throws ErrorVentasRealizadas {
 		
 		if(ventasRealizadas < 0){
@@ -53,7 +78,12 @@ public class EmpleadoPorHoraAComision extends EmpleadoPorHora {
 			
 		}
 	}
-	
+	/**
+	 * pre : 
+	 * 
+	 * post:
+	 * 
+	 */
 	public double getSueldo(){
 		
 		double comisionEnVentas = 0;
@@ -63,7 +93,12 @@ public class EmpleadoPorHoraAComision extends EmpleadoPorHora {
 		
 		return comisionEnVentas + super.getSueldo();
 	}
-	
+	/**
+	 * pre : 
+	 * 
+	 * post:
+	 * 
+	 */
 	public String toString(){
 		
 		return "Tipo: EmpleadoPorHoraAComision"+" Nombre: " + super.getNombre() + "Cuil: " + super.getCuil() + super.getSueldo() + " Comision: " + this.getComision();

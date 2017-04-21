@@ -1,23 +1,44 @@
 package Clases;
+import Excepciones.ErrorValorEnSueldo;;
 
 public class Empleado extends Trabajador implements Comparable<Empleado> {
 	private String cuil;
 	private double sueldo;
-
+	/**
+	 * pre : 
+	 * 
+	 * post:
+	 * 
+	 */
 	public Empleado(String nombre, int dni,double sueldo) {
 		super(nombre, dni);
 		setCuil(dni);
 		setSueldo(sueldo);
 	}
-	
+	/**
+	 * pre : 
+	 * 
+	 * post:
+	 * 
+	 */
 	public String toString(){
 		return "Tipo: Empleado"+" Nombre: " + super.getNombre() + " Cuil: " + getCuil() + " Sueldo: " + getSueldo();
 	}
-	
+	/**
+	 * pre : 
+	 * 
+	 * post:
+	 * 
+	 */
 	public void setCuil(int dni) {
 		this.cuil = "00-" + dni + "-" + AlgoritmoUltimoDigito(dni); ; 	
 	}
-	
+	/**
+	 * pre : 
+	 * 
+	 * post:
+	 * 
+	 */
 	private int AlgoritmoUltimoDigito(int dni) {
 		int suma = 0;
 		int x=0;
@@ -36,19 +57,48 @@ public class Empleado extends Trabajador implements Comparable<Empleado> {
 		}
 		return x;
 	}
-	
+	/**
+	 * pre : 
+	 * 
+	 * post:
+	 * 
+	 */
 	public String getCuil() {
 		return this.cuil;
 	}
-	
+	/**
+	 * pre : 
+	 * 
+	 * post:
+	 * 
+	 */
 	public void setSueldo(double sueldo){
-		this.sueldo = sueldo;
+		try{
+			if(sueldo > 0){
+				this.sueldo = sueldo;
+			}else{
+				throw new ErrorValorEnSueldo();
+			}
+		}catch(ErrorValorEnSueldo e){
+			System.out.println(e.Error());
+		}
+		
 	}
-	
+	/**
+	 * pre : 
+	 * 
+	 * post:
+	 * 
+	 */
 	public double getSueldo(){
 		return this.sueldo;
 	}
-	
+	/**
+	 * pre : 
+	 * 
+	 * post:
+	 * 
+	 */
 	@Override
 	public int compareTo(Empleado o) {
 		if (this.sueldo < o.sueldo){
