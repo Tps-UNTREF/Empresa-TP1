@@ -17,7 +17,6 @@ class Empresa {
 	private static boolean repetir = true;
 	
 	public static void main(String[] args) throws NumberFormatException, IOException{
-		trabajadores.add(new Voluntario("Franco", 38991911));
 		seleccionadorDeMenu();
 	}
 	
