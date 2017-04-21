@@ -1,4 +1,5 @@
 package Clases;
+import Excepciones.CuilInvalidoExcepcion;
 import Excepciones.PremioInvalidoExcepcion;
 
 public class Ejecutivo extends Empleado {
@@ -7,10 +8,10 @@ public class Ejecutivo extends Empleado {
 	/**
 	 * pre : 
 	 * 
-	 * post:
+	 * post: 
 	 * 
 	 */
-	public Ejecutivo(String nombre, String cuil, double sueldo) {
+	public Ejecutivo(String nombre, String cuil, double sueldo) throws NumberFormatException, CuilInvalidoExcepcion {
 		super(nombre, cuil, sueldo);
 	}
 	/**

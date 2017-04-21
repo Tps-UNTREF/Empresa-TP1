@@ -1,4 +1,5 @@
 package Clases;
+import Excepciones.CuilInvalidoExcepcion;
 import Excepciones.ErrorValorEnSueldo;
 
 public class Empleado extends Trabajador implements Comparable<Empleado> {
@@ -10,10 +11,23 @@ public class Empleado extends Trabajador implements Comparable<Empleado> {
 	 * post:
 	 * 
 	 */
-	public Empleado(String nombre, String cuil, double sueldo) {
-		super(nombre, Integer.parseInt(cuil.substring(2, 9)));
+	public Empleado(String nombre, String cuil, double sueldo) throws NumberFormatException, CuilInvalidoExcepcion {
+		super(nombre, Integer.parseInt(validarCuil(cuil).substring(2, 9)));
 		setCuil(cuil);
 		setSueldo(sueldo);
+	}
+	/**
+	 * pre : 
+	 * 
+	 * post:
+	 * @throws CuilInvalidoExcepcion 
+	 * 
+	 */
+	private static String validarCuil(String cuil) throws CuilInvalidoExcepcion {
+		if (cuil.length() != 11) {
+			throw new CuilInvalidoExcepcion();
+		}
+		return cuil;
 	}
 	/**
 	 * pre : 
@@ -30,8 +44,8 @@ public class Empleado extends Trabajador implements Comparable<Empleado> {
 	 * post:
 	 * 
 	 */
-	public void setCuil(String cuil) {
-		this.cuil = cuil; 	
+	public void setCuil(String cuil) throws CuilInvalidoExcepcion {
+		this.cuil = validarCuil(cuil); 	
 	}
 	/**
 	 * pre : 

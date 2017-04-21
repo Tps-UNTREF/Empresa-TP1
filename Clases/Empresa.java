@@ -11,13 +11,15 @@ import Excepciones.*;
 class Empresa {
 	private static ArrayList<Trabajador> trabajadores = new ArrayList<>();
 	private static boolean repetir = true;
-	private static BufferedReader teclado = new BufferedReader(new InputStreamReader(System.in));
+	private static BufferedReader teclado = null;
 	/**
 	 * post:
 	 * Inicia el programa
 	 */
-	public static void main(String[] args){
+	public static void main(String[] args) throws IOException{
+		teclado = new BufferedReader(new InputStreamReader(System.in));
 		seleccionadorDeMenu();
+		teclado.close();
 	}
 	/**
 	 * pre: 
@@ -81,35 +83,44 @@ class Empresa {
 		String cuil = "";
 		int dni = 0;
 		double sueldo = 0;
+		boolean volver = false;
 		
-		if (trabajador == 2) {
-			dni = Integer.parseInt(msgUsuario("Inserte DNI: "));
-		} else {
-			cuil = msgUsuario("Inserte CUIL: ");
-		}
-		
-		switch(trabajador){
-			case 1://Empleado
-				sueldo = Integer.parseInt(msgUsuario("Inserte sueldo: "));
-				trabajadores.add(new Empleado(nombre,cuil,sueldo));
-				break;
-			case 2://Voluntario
-				 trabajadores.add(new Voluntario(nombre,dni));
-				break;
-			case 3://Ejecutivo
-				sueldo = Integer.parseInt(msgUsuario("Inserte sueldo: "));
-				trabajadores.add(new Ejecutivo(nombre, cuil, sueldo));
-				break;
-			case 4://EmpleadoPorHora
-				sueldo = Integer.parseInt(msgUsuario("Inserte sueldo por hora: "));
-				trabajadores.add(new EmpleadoPorHora(nombre,cuil,sueldo));
-				break;
-			case 5://EmpleadoPorHoraAComision
-				sueldo = Integer.parseInt(msgUsuario("Ingrese el sueldo por hora: "));
-				 int comision = Integer.parseInt(msgUsuario("Ingrese el porcentaje de comisión: "));
-				 trabajadores.add(new EmpleadoPorHoraAComision(nombre, cuil, sueldo, comision));
-				break;
-		}	
+		do{
+			volver = false;
+			if (trabajador == 2) {
+				dni = Integer.parseInt(msgUsuario("Inserte DNI: "));
+			} else {
+				cuil = msgUsuario("Inserte CUIL: ");
+			}
+			
+			try {
+				switch(trabajador){
+					case 1://Empleado
+						sueldo = Integer.parseInt(msgUsuario("Inserte sueldo: "));
+						trabajadores.add(new Empleado(nombre,cuil,sueldo));
+						break;
+					case 2://Voluntario
+						 trabajadores.add(new Voluntario(nombre,dni));
+						break;
+					case 3://Ejecutivo
+						sueldo = Integer.parseInt(msgUsuario("Inserte sueldo: "));
+						trabajadores.add(new Ejecutivo(nombre, cuil, sueldo));
+						break;
+					case 4://EmpleadoPorHora
+						sueldo = Integer.parseInt(msgUsuario("Inserte sueldo por hora: "));
+						trabajadores.add(new EmpleadoPorHora(nombre,cuil,sueldo));
+						break;
+					case 5://EmpleadoPorHoraAComision
+						sueldo = Integer.parseInt(msgUsuario("Ingrese el sueldo por hora: "));
+						 int comision = Integer.parseInt(msgUsuario("Ingrese el porcentaje de comisión: "));
+						 trabajadores.add(new EmpleadoPorHoraAComision(nombre, cuil, sueldo, comision));
+						break;
+				}	
+			} catch (NumberFormatException | CuilInvalidoExcepcion e) {
+				System.out.print(e.getMessage() + "\n");
+				volver = !volver;
+			}
+		}while(volver);
 	}
 	/**
 	 * pre: 
@@ -167,7 +178,7 @@ class Empresa {
 	 * 
 	 */
 	private static void modificarEmpleadoPorHoraAComision(
-			EmpleadoPorHoraAComision t) throws NumberFormatException, ValorFueraDeRangoException, IOException, HorasTrabajadasInvalidasExcepcion, ErrorVentasRealizadas {
+			EmpleadoPorHoraAComision t) throws NumberFormatException, ValorFueraDeRangoException, IOException, HorasTrabajadasInvalidasExcepcion, ErrorVentasRealizadas, CuilInvalidoExcepcion {
 		BufferedReader lector = new BufferedReader(new InputStreamReader(System.in));
 		boolean volver = false;
 		do {
@@ -201,7 +212,7 @@ class Empresa {
 		} while (volver);
 	}
 
-	private static void modificarEmpleadoPorHora(EmpleadoPorHora t) throws NumberFormatException, ValorFueraDeRangoException, IOException, HorasTrabajadasInvalidasExcepcion {
+	private static void modificarEmpleadoPorHora(EmpleadoPorHora t) throws NumberFormatException, ValorFueraDeRangoException, IOException, HorasTrabajadasInvalidasExcepcion, CuilInvalidoExcepcion {
 		BufferedReader lector = new BufferedReader(new InputStreamReader(System.in));
 		boolean volver = false;
 		do {
@@ -231,7 +242,7 @@ class Empresa {
 		} while (volver);
 	}
 
-	private static void modificarEjecutivo(Ejecutivo t) throws NumberFormatException, ValorFueraDeRangoException, IOException, PremioInvalidoExcepcion {
+	private static void modificarEjecutivo(Ejecutivo t) throws NumberFormatException, ValorFueraDeRangoException, IOException, PremioInvalidoExcepcion, CuilInvalidoExcepcion {
 		BufferedReader lector = new BufferedReader(new InputStreamReader(System.in));
 		boolean volver = false;
 		do {
@@ -279,7 +290,7 @@ class Empresa {
 		} while (volver);
 	}
 
-	private static void modificarEmpleado(Empleado t) throws NumberFormatException, ValorFueraDeRangoException, IOException {
+	private static void modificarEmpleado(Empleado t) throws NumberFormatException, ValorFueraDeRangoException, IOException, CuilInvalidoExcepcion {
 		BufferedReader lector = new BufferedReader(new InputStreamReader(System.in));
 		boolean volver = false;
 		do {
