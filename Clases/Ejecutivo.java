@@ -10,8 +10,8 @@ public class Ejecutivo extends Empleado {
 	 * post:
 	 * 
 	 */
-	public Ejecutivo(String nombre, int dni, double sueldo) {
-		super(nombre, dni, sueldo);
+	public Ejecutivo(String nombre, String cuil, double sueldo) {
+		super(nombre, cuil, sueldo);
 	}
 	/**
 	 * pre : 
@@ -28,7 +28,7 @@ public class Ejecutivo extends Empleado {
 			}
 		}
 		catch(PremioInvalidoExcepcion e) {
-			System.out.println(e.error());
+			System.out.println(e.getMessage());
 		}
 	}
 	/**

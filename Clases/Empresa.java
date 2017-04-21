@@ -6,31 +6,26 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
-
-import Excepciones.ErrorVentasRealizadas;
-import Excepciones.HorasTrabajadasInvalidasExcepcion;
-import Excepciones.PremioInvalidoExcepcion;
-import Excepciones.ValorFueraDeRangoException;
+import Excepciones.*;
 
 class Empresa {
 	private static ArrayList<Trabajador> trabajadores = new ArrayList<>();
 	private static boolean repetir = true;
+	private static BufferedReader teclado = new BufferedReader(new InputStreamReader(System.in));
 	/**
-	 * pre: 
-	 * 
 	 * post:
-	 * 
+	 * Inicia el programa
 	 */
-	public static void main(String[] args) throws NumberFormatException, IOException{
+	public static void main(String[] args){
 		seleccionadorDeMenu();
 	}
 	/**
 	 * pre: 
 	 * 
 	 * post:
-	 * 
+	 * Metodo en el cual se muestra al menu principal
 	 */
-	private static void seleccionadorDeMenu() throws NumberFormatException, IOException{
+	private static void seleccionadorDeMenu(){
 		do{
 			System.out.println("Eliga una opcion: \n"
 					+ "1-Obtener la descripcion de un trabajador \n"
@@ -38,12 +33,12 @@ class Empresa {
 					+ "3-Obtener un trabajador para modificarle los datos\n"
 					+ "4-Obtener la lista de los trabajadores\n"
 					+ "5-terminar");
-			BufferedReader lector = new BufferedReader(new InputStreamReader(System.in));
+			
 			try {
-				switch (valorEntre(Integer.parseInt(lector.readLine()),1,5)) {
+				switch (valorEntre(Integer.parseInt(teclado.readLine()),1,5)) {
 					case 1:
 						getDescripcionTrabajador(Integer.parseInt(msgUsuario("Ingrese DNI del trabajador " + 
-								"que quiera la descripcion: ", lector)));
+								"que quiera la descripcion: ")));
 						Terminar();
 						break;
 					case 2:
@@ -53,7 +48,7 @@ class Empresa {
 								"2-Voluntario \n" + 
 								"3-Ejecutivo \n" + 
 								"4-EmpleadoPorHora \n" + 
-								"5-EmpleadoPorHoraAComision", lector)));
+								"5-EmpleadoPorHoraAComision \n")));
 						Terminar();
 						break;
 					case 3:
@@ -68,8 +63,8 @@ class Empresa {
 						repetir = !repetir;
 						break;
 				}
-			} catch (ValorFueraDeRangoException e) {
-				System.out.print(e.error() + "\n");
+			} catch (ValorFueraDeRangoException | NumberFormatException | IOException e) {
+				System.out.print(e.getMessage() + "\n");
 			}
 		}while(repetir);
 	}
@@ -82,34 +77,37 @@ class Empresa {
 	 */
 
 	private static void crearTrabajador(int trabajador) throws IOException{
-		BufferedReader lector = new BufferedReader(new InputStreamReader(System.in));
-		String nombre;
-		int dni;
-		double sueldo;
+		String nombre = msgUsuario("Inserte nombre: ");
+		String cuil = "";
+		int dni = 0;
+		double sueldo = 0;
 		
-		nombre = msgUsuario("Inserte nombre: ", lector);
-		dni = Integer.parseInt(msgUsuario("Inserte DNI: ", lector));
+		if (trabajador == 2) {
+			dni = Integer.parseInt(msgUsuario("Inserte DNI: "));
+		} else {
+			cuil = msgUsuario("Inserte CUIL: ");
+		}
 		
 		switch(trabajador){
 			case 1://Empleado
-				sueldo = Integer.parseInt(msgUsuario("Inserte sueldo: ", lector));
-				trabajadores.add(new Empleado(nombre,dni,sueldo));
+				sueldo = Integer.parseInt(msgUsuario("Inserte sueldo: "));
+				trabajadores.add(new Empleado(nombre,cuil,sueldo));
 				break;
 			case 2://Voluntario
 				 trabajadores.add(new Voluntario(nombre,dni));
 				break;
 			case 3://Ejecutivo
-				sueldo = Integer.parseInt(msgUsuario("ingresar sueldo: ", lector));
-				trabajadores.add(new Ejecutivo(nombre, dni, sueldo));
+				sueldo = Integer.parseInt(msgUsuario("Inserte sueldo: "));
+				trabajadores.add(new Ejecutivo(nombre, cuil, sueldo));
 				break;
 			case 4://EmpleadoPorHora
-				sueldo = Integer.parseInt(msgUsuario("Inserte sueldo por hora: ", lector));
-				trabajadores.add(new EmpleadoPorHora(nombre,dni,sueldo));
+				sueldo = Integer.parseInt(msgUsuario("Inserte sueldo por hora: "));
+				trabajadores.add(new EmpleadoPorHora(nombre,cuil,sueldo));
 				break;
 			case 5://EmpleadoPorHoraAComision
-				 double sueldoPorHora = Integer.parseInt(msgUsuario("Ingrese el sueldo por hora: ", lector));
-				 int comision = Integer.parseInt(msgUsuario("Ingrese el porcentaje de comisión: ", lector));
-				 trabajadores.add(new EmpleadoPorHoraAComision(nombre, dni, sueldoPorHora, comision));
+				sueldo = Integer.parseInt(msgUsuario("Ingrese el sueldo por hora: "));
+				 int comision = Integer.parseInt(msgUsuario("Ingrese el porcentaje de comisión: "));
+				 trabajadores.add(new EmpleadoPorHoraAComision(nombre, cuil, sueldo, comision));
 				break;
 		}	
 	}
@@ -120,8 +118,7 @@ class Empresa {
 	 * 
 	 */
 	private static void Terminar() throws NumberFormatException, IOException {
-		BufferedReader lector2 = new BufferedReader(new InputStreamReader(System.in));
-		repetir = Integer.parseInt(msgUsuario("Desea terminar? \n 1-Seguir \n 0-Terminar \n", lector2)) == 1;
+		repetir = Integer.parseInt(msgUsuario("Desea terminar? \n 1-Seguir \n 0-Terminar \n")) == 1;
 	}
 	/**
 	 * pre: 
@@ -138,13 +135,12 @@ class Empresa {
 	}
 	
 	private static void modificarTrabajador() {
-		BufferedReader lector = new BufferedReader(new InputStreamReader(System.in));
 		boolean volver = false;
 		Trabajador t = null;
 		do {
 			try {
 				if (t==null) {
-					t = obtenerTrabajador(Integer.parseInt(msgUsuario("Inserte DNI: ", lector)));					
+					t = obtenerTrabajador(Integer.parseInt(msgUsuario("Inserte DNI: ")));					
 				}
 				if (t instanceof Voluntario) {
 					modificarVoluntario((Voluntario)t);
@@ -157,7 +153,7 @@ class Empresa {
 			 	} else if (t instanceof Empleado) {
 					modificarEmpleado((Empleado)t);
 				}
-				volver = Integer.parseInt(msgUsuario("Desea finalizar la edicion? \n 1-Seguir \n 0-Terminar \n", lector)) == 1;
+				volver = Integer.parseInt(msgUsuario("Desea finalizar la edicion? \n 1-Seguir \n 0-Terminar \n")) == 1;
 			} catch (Exception e) {
 				System.out.println("Error: vuelva a intertarlo");
 				volver = !volver;
@@ -184,19 +180,19 @@ class Empresa {
 					+ "6-Salir");
 			switch (valorEntre(Integer.parseInt(lector.readLine()),1,6)) {
 				case 1:
-					t.setNombre(msgUsuario("Inserte nuevo nombre: ", lector));
+					t.setNombre(msgUsuario("Inserte nuevo nombre: "));
 					break;
 				case 2:
-					t.setCuil(Integer.parseInt(msgUsuario("Inserte nuevo Cuil: ", lector)));
+					t.setCuil(msgUsuario("Inserte nuevo Cuil: "));
 					break;
 				case 3:
-					t.setSueldo(Integer.parseInt(msgUsuario("Inserte nuevo sueldo: ", lector)));
+					t.setSueldo(Integer.parseInt(msgUsuario("Inserte nuevo sueldo: ")));
 					break;
 				case 4:
-					t.setHorasTrabajadas(Integer.parseInt(msgUsuario("Inserte nuevo Horas Trabajadas: ", lector)));
+					t.setHorasTrabajadas(Integer.parseInt(msgUsuario("Inserte nuevo Horas Trabajadas: ")));
 					break;
 				case 5:
-					t.setVentasRealizadas(Integer.parseInt(msgUsuario("Inserte nuevo Ventas Realizadas: ", lector)));
+					t.setVentasRealizadas(Integer.parseInt(msgUsuario("Inserte nuevo Ventas Realizadas: ")));
 					break;
 				case 6:
 					volver = !volver;
@@ -217,16 +213,16 @@ class Empresa {
 					+ "5-Salir");
 			switch (valorEntre(Integer.parseInt(lector.readLine()),1,5)) {
 				case 1:
-					t.setNombre(msgUsuario("Inserte nuevo nombre: ", lector));
+					t.setNombre(msgUsuario("Inserte nuevo nombre: "));
 					break;
 				case 2:
-					t.setCuil(Integer.parseInt(msgUsuario("Inserte nuevo Cuil: ", lector)));
+					t.setCuil(msgUsuario("Inserte nuevo Cuil: "));
 					break;
 				case 3:
-					t.setSueldo(Integer.parseInt(msgUsuario("Inserte nuevo sueldo: ", lector)));
+					t.setSueldo(Integer.parseInt(msgUsuario("Inserte nuevo sueldo: ")));
 					break;
 				case 4:
-					t.setHorasTrabajadas(Integer.parseInt(msgUsuario("Inserte nuevo Horas Trabajadas: ", lector)));
+					t.setHorasTrabajadas(Integer.parseInt(msgUsuario("Inserte nuevo Horas Trabajadas: ")));
 					break;
 				case 5:
 					volver = !volver;
@@ -247,16 +243,16 @@ class Empresa {
 					+ "5-Salir");
 			switch (valorEntre(Integer.parseInt(lector.readLine()),1,5)) {
 				case 1:
-					t.setNombre(msgUsuario("Inserte nuevo nombre: ", lector));
+					t.setNombre(msgUsuario("Inserte nuevo nombre: "));
 					break;
 				case 2:
-					t.setCuil(Integer.parseInt(msgUsuario("Inserte nuevo Cuil: ", lector)));
+					t.setCuil(msgUsuario("Inserte nuevo Cuil: "));
 					break;
 				case 3:
-					t.setSueldo(Integer.parseInt(msgUsuario("Inserte nuevo sueldo: ", lector)));
+					t.setSueldo(Integer.parseInt(msgUsuario("Inserte nuevo sueldo: ")));
 					break;
 				case 4:
-					t.setPremio(Integer.parseInt(msgUsuario("Inserte nuevo Premio: ", lector)));
+					t.setPremio(Integer.parseInt(msgUsuario("Inserte nuevo Premio: ")));
 					break;
 				case 5:
 					volver = !volver;
@@ -274,7 +270,7 @@ class Empresa {
 					+ "2-Salir");
 			switch (valorEntre(Integer.parseInt(lector.readLine()),1,2)) {
 				case 1:
-					t.setNombre(msgUsuario("Inserte nuevo nombre: ", lector));
+					t.setNombre(msgUsuario("Inserte nuevo nombre: "));
 					break;
 				case 2:
 					volver = !volver;
@@ -294,13 +290,13 @@ class Empresa {
 					+ "5-Salir");
 			switch (valorEntre(Integer.parseInt(lector.readLine()),1,4)) {
 				case 1:
-					t.setNombre(msgUsuario("Inserte nuevo nombre: ", lector));
+					t.setNombre(msgUsuario("Inserte nuevo nombre: "));
 					break;
 				case 2:
-					t.setCuil(Integer.parseInt(msgUsuario("Inserte nuevo Cuil: ", lector)));
+					t.setCuil(msgUsuario("Inserte nuevo Cuil: "));
 					break;
 				case 3:
-					t.setSueldo(Integer.parseInt(msgUsuario("Inserte nuevo sueldo: ", lector)));
+					t.setSueldo(Integer.parseInt(msgUsuario("Inserte nuevo sueldo: ")));
 					break;
 				case 4:
 					volver = !volver;
@@ -355,9 +351,9 @@ class Empresa {
 	 * post:
 	 * 
 	 */
-	private static String msgUsuario(String msg, BufferedReader in) throws IOException {
+	private static String msgUsuario(String msg) throws IOException {
 		  System.out.print(msg);
-		  return in.readLine();
+		  return teclado.readLine();
 	}
 	/**
 	 * pre: 

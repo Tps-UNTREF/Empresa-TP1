@@ -12,8 +12,8 @@ public class EmpleadoPorHoraAComision extends EmpleadoPorHora {
 	 * post:
 	 * 
 	 */
-	public EmpleadoPorHoraAComision(String nombre, int dni, double sueldoPorHora , int comision) {
-		super(nombre, dni, sueldoPorHora);
+	public EmpleadoPorHoraAComision(String nombre, String cuil, double sueldoPorHora , int comision) {
+		super(nombre, cuil, sueldoPorHora);
 		this.comision = comision;
 	}
 	/**
@@ -45,7 +45,7 @@ public class EmpleadoPorHoraAComision extends EmpleadoPorHora {
 		}	
 			catch(ErrorDeComision e){
 				
-				System.out.println(e.error());
+				System.out.println(e.getMessage());
 				
 			}
 		
@@ -70,7 +70,7 @@ public class EmpleadoPorHoraAComision extends EmpleadoPorHora {
 		
 		if(ventasRealizadas < 0){
 			
-			throw new ErrorVentasRealizadas("ingresar numero de ventas validas");
+			throw new ErrorVentasRealizadas();
 			
 		}else{
 			

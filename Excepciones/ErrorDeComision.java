@@ -2,11 +2,8 @@ package Excepciones;
 
 @SuppressWarnings("serial")
 public class ErrorDeComision extends Exception {
-
-	public ErrorDeComision() {
-	}
-	
-	public String error(){
+	@Override
+	public String getMessage(){
 		return "Ingresar comision valida";
 	}
 	

@@ -10,8 +10,8 @@ public class EmpleadoPorHora extends Empleado {
 	 * post:
 	 * 
 	 */
-	public EmpleadoPorHora(String nombre, int dni, double sueldoPorHora) {
-		super(nombre, dni, sueldoPorHora);
+	public EmpleadoPorHora(String nombre, String cuil, double sueldoPorHora) {
+		super(nombre, cuil, sueldoPorHora);
 	}
 	/**
 	 * pre : 
@@ -43,7 +43,7 @@ public class EmpleadoPorHora extends Empleado {
 		}
 		catch(HorasTrabajadasInvalidasExcepcion e){
 			
-			System.out.println(e.error());
+			System.out.println(e.getMessage());
 			
 		}
 			

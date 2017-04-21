@@ -2,11 +2,8 @@ package Excepciones;
 
 @SuppressWarnings("serial")
 public class ValorFueraDeRangoException extends Exception {
-	
-	public ValorFueraDeRangoException() {
-	}
-	
-	public String error(){
+	@Override
+	public String getMessage(){
 		return "Valor fuera de rango";
 	}
 }

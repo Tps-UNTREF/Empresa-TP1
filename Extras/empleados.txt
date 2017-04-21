@@ -1,5 +1,1 @@
-0.Tipo: Empleado Nombre: Nicolas Hansen Cuil: 00-40129423-7 Sueldo: 16500.0 
-1.Tipo: Empleado Nombre: Matias Juguera Cuil: 00-39560630-2 Sueldo: 14000.0 
-2.Tipo: Ejecutivo Nombre: Matias Bellotti CUIL: 00-35023850-7 Sueldo: 12000.0 
-3.Tipo: Voluntario Nombre: Frando De Alesandro DNI: 36423052 
-
+0.Tipo: Empleado Nombre: Franco Cuil: 2038991911 Sueldo: 12000.0 

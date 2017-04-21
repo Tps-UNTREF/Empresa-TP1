@@ -2,15 +2,9 @@ package Excepciones;
 
 @SuppressWarnings("serial")
 public class HorasTrabajadasInvalidasExcepcion extends Exception {
-
-	public HorasTrabajadasInvalidasExcepcion() {
-		
-	}
-	
-	public String error(){
+	@Override
+	public String getMessage(){
 		return "Ingresar horas validas";
 	}
-	
-	
 
 }
