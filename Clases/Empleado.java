@@ -36,7 +36,7 @@ public class Empleado extends Trabajador implements Comparable<Empleado> {
 	 * 
 	 */
 	public String toString(){
-		return "Tipo: Empleado"+" Nombre: " + super.getNombre() + " Cuil: " + getCuil() + " Sueldo: " + getSueldo();
+		return "Tipo:Empleado, Nombre:" + super.getNombre() + ", Cuil:" + getCuil() + ", Sueldo:" + getSueldo();
 	}
 	/**
 	 * pre : 

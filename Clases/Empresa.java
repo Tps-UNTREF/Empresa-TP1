@@ -1,6 +1,8 @@
 package Clases;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -9,7 +11,7 @@ import java.util.Collections;
 import Excepciones.*;
 
 class Empresa {
-	private static ArrayList<Trabajador> trabajadores = new ArrayList<>();
+	private static ArrayList<Trabajador> trabajadores = null;
 	private static BufferedReader teclado = null;
 	private static boolean salir = false;
 	/**
@@ -17,6 +19,7 @@ class Empresa {
 	 * Inicia el programa
 	 */
 	public static void main(String[] args) throws IOException{
+		trabajadores = cargarTrabajadores("Extras/empleados.txt");
 		teclado = new BufferedReader(new InputStreamReader(System.in));
 		seleccionadorDeMenu();
 		teclado.close();
@@ -325,21 +328,81 @@ class Empresa {
 		int i = 0;
 		File f = new File("Extras/empleados.txt");
 		FileWriter fw = new FileWriter(f);
+		BufferedWriter bw = new BufferedWriter(fw); 
 		for(Empleado e: empleados){
-			fw.write(i+"."+e.toString()+" \n");
-			System.out.println(i+"."+e.toString()+" \n");
+			bw.write(i+"."+e.toString()+" \n");
+			bw.newLine();
+			System.out.println(i+"."+e.toString());
 			i++;
 		}
 		for(Trabajador t: trabajadores){
 			if(t instanceof Voluntario){
-				fw.write(i+"."+t.toString()+" \n");
-				System.out.println(i+"."+t.toString()+" \n");
+				bw.write(i+"."+t.toString()+" \n");
+				bw.newLine();
+				System.out.println(i+"."+t.toString());
 				i++;
 			}
 		}
+		bw.close();
 		fw.close();
 		System.out.println("Precione Enter para continuar");
 		teclado.readLine();
+	}
+	/**
+	 * pre: 
+	 * 
+	 * post:
+	 * 
+	 */
+	private static ArrayList<Trabajador> cargarTrabajadores(String path) {
+		ArrayList<Trabajador> trabajadores = new ArrayList<Trabajador>();
+		FileReader fr = null;
+		try {
+			fr = new FileReader(path);
+			BufferedReader b = new BufferedReader(fr);
+			String linea = "";
+			
+			while ((linea = b.readLine())!=null) {
+				String[] t = linea.split(",");
+				if (t.length > 0) {
+					//"Tipo:Empleado"+", Nombre:" + super.getNombre() + ", Cuil:" + getCuil() + ", Sueldo:" + getSueldo();
+					String nombre = t[1].split(":")[1].trim();
+					String cuil = "";
+					Double sueldo = 0.0;
+					
+					switch (t[0].split(":")[1].trim()) {
+						case "Empleado":
+							cuil = t[2].split(":")[1].trim();
+							sueldo = Double.parseDouble(t[3].split(":")[1].trim());
+							trabajadores.add(new Empleado(nombre, cuil, sueldo));
+							break;
+						case "EmpleadoPorHora":
+							cuil = t[2].split(":")[1].trim();
+							sueldo = Double.parseDouble(t[3].split(":")[1].trim());
+							trabajadores.add(new EmpleadoPorHora(nombre, cuil, sueldo));
+							break;
+						case "EmpleadoPorHoraAComision":
+							int comision = Integer.parseInt(t[4].split(":")[1].trim());
+							cuil = t[2].split(":")[1].trim();
+							sueldo = Double.parseDouble(t[3].split(":")[1].trim());
+							trabajadores.add(new EmpleadoPorHoraAComision(nombre, cuil, sueldo, comision));
+							break;
+						case "Voluntario":
+							int dni = Integer.parseInt(t[2].split(":")[1].trim());
+							trabajadores.add(new Voluntario(nombre, dni));
+							break;
+						case "Ejecutivo":
+							cuil = t[2].split(":")[1].trim();
+							sueldo = Double.parseDouble(t[3].split(":")[1].trim());
+							trabajadores.add(new Ejecutivo(nombre, cuil, sueldo));
+					}
+				}
+			}
+			
+			b.close();
+			fr.close();
+		} catch (IOException | NumberFormatException | CuilInvalidoExcepcion e) {}
+		return trabajadores;
 	}
 	/**
 	 * pre: 

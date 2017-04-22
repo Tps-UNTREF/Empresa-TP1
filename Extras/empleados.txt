@@ -1,1 +1,3 @@
-0.Tipo: Empleado Nombre: Franco Cuil: 20389919110 Sueldo: 15000.0 
+0.Tipo:Empleado, Nombre:Franco, Cuil:20389919110, Sueldo:15000.0 
+
+1.Tipo:Voluntario, Nombre:Franco Pobre, DNI:38991912 

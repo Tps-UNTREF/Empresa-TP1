@@ -17,7 +17,7 @@ public class Voluntario extends Trabajador {
 	 * 
 	 */
 	public String toString() {
-		return "Tipo: Voluntario" +" Nombre: " + super.getNombre() + " DNI: " + super.getDni();
+		return "Tipo:Voluntario, Nombre:" + super.getNombre() + ", DNI:" + super.getDni();
 	}
 
 }
