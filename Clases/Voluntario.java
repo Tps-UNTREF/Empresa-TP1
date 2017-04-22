@@ -2,18 +2,14 @@ package Clases;
 
 public class Voluntario extends Trabajador {
 	/**
-	 * pre : 
-	 * 
-	 * post:
+	 * pre : Se ingresa un nombre y un DNI valido.
 	 * 
 	 */
 	public Voluntario(String nombre, int dni) {
 		super(nombre, dni);
 	}
 	/**
-	 * pre : 
-	 * 
-	 * post:
+	 * post: Devuelve la descripcion del empleado.
 	 * 
 	 */
 	public String toString() {
