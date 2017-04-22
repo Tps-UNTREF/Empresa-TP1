@@ -12,7 +12,7 @@ public class Empleado extends Trabajador implements Comparable<Empleado> {
 	 * 
 	 */
 	public Empleado(String nombre, String cuil, double sueldo) throws NumberFormatException, CuilInvalidoExcepcion {
-		super(nombre, Integer.parseInt(validarCuil(cuil).substring(2, 9)));
+		super(nombre, Integer.parseInt(validarCuil(cuil).substring(2, 10)));
 		setCuil(cuil);
 		setSueldo(sueldo);
 	}
@@ -45,6 +45,9 @@ public class Empleado extends Trabajador implements Comparable<Empleado> {
 	 * 
 	 */
 	public void setCuil(String cuil) throws CuilInvalidoExcepcion {
+		if (Integer.parseInt(cuil.substring(2, 10)) != super.getDni()) {
+			throw new CuilInvalidoExcepcion();
+		}
 		this.cuil = validarCuil(cuil); 	
 	}
 	/**

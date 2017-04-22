@@ -10,8 +10,8 @@ import Excepciones.*;
 
 class Empresa {
 	private static ArrayList<Trabajador> trabajadores = new ArrayList<>();
-	private static boolean repetir = true;
 	private static BufferedReader teclado = null;
+	private static boolean salir = false;
 	/**
 	 * post:
 	 * Inicia el programa
@@ -27,73 +27,66 @@ class Empresa {
 	 * post:
 	 * Metodo en el cual se muestra al menu principal
 	 */
-	private static void seleccionadorDeMenu(){
+	private static void seleccionadorDeMenu(){	
 		do{
-			System.out.println("Eliga una opcion: \n"
-					+ "1-Obtener la descripcion de un trabajador \n"
-					+ "2-Agregar un trabajador\n"
-					+ "3-Obtener un trabajador para modificarle los datos\n"
-					+ "4-Obtener la lista de los trabajadores\n"
-					+ "5-terminar");
-			
 			try {
-				switch (valorEntre(Integer.parseInt(teclado.readLine()),1,5)) {
+				switch (printMenu("Eliga una opcion: \n"
+						+ "1-Obtener la descripcion de un trabajador \n"
+						+ "2-Agregar un trabajador\n"
+						+ "3-Obtener un trabajador para modificarle los datos\n"
+						+ "4-Obtener la lista de los trabajadores\n"
+						+ "5-Salir")) {
 					case 1:
 						getDescripcionTrabajador(Integer.parseInt(msgUsuario("Ingrese DNI del trabajador " + 
 								"que quiera la descripcion: ")));
-						Terminar();
 						break;
 					case 2:
-						crearTrabajador(Integer.parseInt(msgUsuario("Elige el tipo de trabajador " + 
-								"que quieras crear: \n" + 
-								"1-Empleado \n" + 
-								"2-Voluntario \n" + 
-								"3-Ejecutivo \n" + 
-								"4-EmpleadoPorHora \n" + 
-								"5-EmpleadoPorHoraAComision \n")));
-						Terminar();
+						crearTrabajador();
 						break;
 					case 3:
 						modificarTrabajador();
-						Terminar();
 						break;
 					case 4:
 						listarSueldoDeTrabajadores();
-						Terminar();
 						break;
 					case 5:
-						repetir = !repetir;
-						break;
+						salir = !salir;
 				}
 			} catch (ValorFueraDeRangoException | NumberFormatException | IOException e) {
-				System.out.print(e.getMessage() + "\n");
+				System.err.print(e.getMessage() + "\n");
 			}
-		}while(repetir);
+		}while(!salir);
 	}
-
 	/**
 	 * pre: 
 	 * 
 	 * post:
 	 * 
 	 */
-
-	private static void crearTrabajador(int trabajador) throws IOException{
-		String nombre = msgUsuario("Inserte nombre: ");
-		String cuil = "";
-		int dni = 0;
-		double sueldo = 0;
-		boolean volver = false;
-		
+	private static void crearTrabajador() throws IOException{		
 		do{
-			volver = false;
-			if (trabajador == 2) {
-				dni = Integer.parseInt(msgUsuario("Inserte DNI: "));
-			} else {
-				cuil = msgUsuario("Inserte CUIL: ");
-			}
+			String nombre = "";
+			String cuil = "";
+			int dni = 0;
+			double sueldo = 0;
 			
 			try {
+				int trabajador = printMenu("Elige el tipo de trabajador " + 
+						"que quieras crear: \n" + 
+						"1-Empleado \n" + 
+						"2-Voluntario \n" + 
+						"3-Ejecutivo \n" +
+						"4-EmpleadoPorHora \n" + 
+						"5-EmpleadoPorHoraAComision \n" +
+						"6-Salir \n");
+				
+				nombre = msgUsuario("Inserte nombre: ");
+				if (trabajador == 2) {
+					dni = Integer.parseInt(msgUsuario("Inserte DNI: "));
+				} else {
+					cuil = msgUsuario("Inserte CUIL: ");
+				}
+			
 				switch(trabajador){
 					case 1://Empleado
 						sueldo = Integer.parseInt(msgUsuario("Inserte sueldo: "));
@@ -116,33 +109,28 @@ class Empresa {
 						 trabajadores.add(new EmpleadoPorHoraAComision(nombre, cuil, sueldo, comision));
 						break;
 				}	
-			} catch (NumberFormatException | CuilInvalidoExcepcion e) {
-				System.out.print(e.getMessage() + "\n");
-				volver = !volver;
+				salir = !salir;
+			} catch (ValorFueraDeRangoException | NumberFormatException | CuilInvalidoExcepcion e) {
+				System.err.print(e.getMessage() + "\n");
 			}
-		}while(volver);
+		}while(!salir);
+		salir = !salir;//Vuelvo al estado anterior
 	}
 	/**
 	 * pre: 
 	 * 
 	 * post:
+	 * @throws IOException 
 	 * 
 	 */
-	private static void Terminar() throws NumberFormatException, IOException {
-		repetir = Integer.parseInt(msgUsuario("Desea terminar? \n 1-Seguir \n 0-Terminar \n")) == 1;
-	}
-	/**
-	 * pre: 
-	 * 
-	 * post:
-	 * 
-	 */
-	public static void getDescripcionTrabajador(int dni){ //la cambie de String a void
+	public static void getDescripcionTrabajador(int dni) throws IOException{ //la cambie de String a void
 		for(Trabajador t: trabajadores){
-			if(dni == t.getDni()){
+			if(t.getDni().equals(dni)){
 				System.out.println(t.toString());
 			}
 		}
+		System.out.println("Precione Enter para continuar");
+		teclado.readLine();
 	}
 	
 	private static void modificarTrabajador() {
@@ -164,9 +152,9 @@ class Empresa {
 			 	} else if (t instanceof Empleado) {
 					modificarEmpleado((Empleado)t);
 				}
-				volver = Integer.parseInt(msgUsuario("Desea finalizar la edicion? \n 1-Seguir \n 0-Terminar \n")) == 1;
+				volver = printMenu("Desea finalizar la edicion? \n 1-Seguir \n 0-Terminar \n") == 1;
 			} catch (Exception e) {
-				System.out.println("Error: vuelva a intertarlo");
+				System.err.println(e.getMessage() + "\n");
 				volver = !volver;
 			}			
 		} while (volver);
@@ -179,9 +167,9 @@ class Empresa {
 	 */
 	private static void modificarEmpleadoPorHoraAComision(
 			EmpleadoPorHoraAComision t) throws NumberFormatException, ValorFueraDeRangoException, IOException, HorasTrabajadasInvalidasExcepcion, ErrorVentasRealizadas, CuilInvalidoExcepcion {
-		BufferedReader lector = new BufferedReader(new InputStreamReader(System.in));
 		boolean volver = false;
 		do {
+			System.out.println("\n");
 			System.out.println("Eliga una opcion: \n"
 					+ "1-Nombre \n"
 					+ "2-Cuil \n"
@@ -189,7 +177,7 @@ class Empresa {
 					+ "4-Horas Trabajadas \n"
 					+ "5-Ventas Realizadas \n"
 					+ "6-Salir");
-			switch (valorEntre(Integer.parseInt(lector.readLine()),1,6)) {
+			switch (valorEntre(Integer.parseInt(teclado.readLine()),1,6)) {
 				case 1:
 					t.setNombre(msgUsuario("Inserte nuevo nombre: "));
 					break;
@@ -213,7 +201,6 @@ class Empresa {
 	}
 
 	private static void modificarEmpleadoPorHora(EmpleadoPorHora t) throws NumberFormatException, ValorFueraDeRangoException, IOException, HorasTrabajadasInvalidasExcepcion, CuilInvalidoExcepcion {
-		BufferedReader lector = new BufferedReader(new InputStreamReader(System.in));
 		boolean volver = false;
 		do {
 			System.out.println("Eliga una opcion: \n"
@@ -222,7 +209,7 @@ class Empresa {
 					+ "3-Sueldo \n"
 					+ "4-Horas Trabajadas \n"
 					+ "5-Salir");
-			switch (valorEntre(Integer.parseInt(lector.readLine()),1,5)) {
+			switch (valorEntre(Integer.parseInt(teclado.readLine()),1,5)) {
 				case 1:
 					t.setNombre(msgUsuario("Inserte nuevo nombre: "));
 					break;
@@ -243,7 +230,6 @@ class Empresa {
 	}
 
 	private static void modificarEjecutivo(Ejecutivo t) throws NumberFormatException, ValorFueraDeRangoException, IOException, PremioInvalidoExcepcion, CuilInvalidoExcepcion {
-		BufferedReader lector = new BufferedReader(new InputStreamReader(System.in));
 		boolean volver = false;
 		do {
 			System.out.println("Eliga una opcion: \n"
@@ -252,7 +238,7 @@ class Empresa {
 					+ "3-Sueldo \n"
 					+ "4-Horas Trabajadas \n"
 					+ "5-Salir");
-			switch (valorEntre(Integer.parseInt(lector.readLine()),1,5)) {
+			switch (valorEntre(Integer.parseInt(teclado.readLine()),1,5)) {
 				case 1:
 					t.setNombre(msgUsuario("Inserte nuevo nombre: "));
 					break;
@@ -273,13 +259,12 @@ class Empresa {
 	}
 
 	private static void modificarVoluntario(Voluntario t) throws NumberFormatException, ValorFueraDeRangoException, IOException {
-		BufferedReader lector = new BufferedReader(new InputStreamReader(System.in));
 		boolean volver = false;
 		do {
 			System.out.println("Eliga una opcion: \n"
 					+ "1-Nombre \n"
 					+ "2-Salir");
-			switch (valorEntre(Integer.parseInt(lector.readLine()),1,2)) {
+			switch (valorEntre(Integer.parseInt(teclado.readLine()),1,2)) {
 				case 1:
 					t.setNombre(msgUsuario("Inserte nuevo nombre: "));
 					break;
@@ -291,7 +276,6 @@ class Empresa {
 	}
 
 	private static void modificarEmpleado(Empleado t) throws NumberFormatException, ValorFueraDeRangoException, IOException, CuilInvalidoExcepcion {
-		BufferedReader lector = new BufferedReader(new InputStreamReader(System.in));
 		boolean volver = false;
 		do {
 			System.out.println("Eliga una opcion: \n"
@@ -299,7 +283,7 @@ class Empresa {
 					+ "2-Cuil \n"
 					+ "3-Sueldo \n"
 					+ "5-Salir");
-			switch (valorEntre(Integer.parseInt(lector.readLine()),1,4)) {
+			switch (valorEntre(Integer.parseInt(teclado.readLine()),1,4)) {
 				case 1:
 					t.setNombre(msgUsuario("Inserte nuevo nombre: "));
 					break;
@@ -340,12 +324,11 @@ class Empresa {
 		Collections.sort(empleados);
 		int i = 0;
 		File f = new File("Extras/empleados.txt");
-		System.out.println(f.exists());
 		FileWriter fw = new FileWriter(f);
 		for(Empleado e: empleados){
-				fw.write(i+"."+e.toString()+" \n");
-				System.out.println(i+"."+e.toString()+" \n");
-				i++;
+			fw.write(i+"."+e.toString()+" \n");
+			System.out.println(i+"."+e.toString()+" \n");
+			i++;
 		}
 		for(Trabajador t: trabajadores){
 			if(t instanceof Voluntario){
@@ -355,6 +338,8 @@ class Empresa {
 			}
 		}
 		fw.close();
+		System.out.println("Precione Enter para continuar");
+		teclado.readLine();
 	}
 	/**
 	 * pre: 
@@ -362,9 +347,37 @@ class Empresa {
 	 * post:
 	 * 
 	 */
-	private static String msgUsuario(String msg) throws IOException {
-		  System.out.print(msg);
-		  return teclado.readLine();
+	private static int printMenu(String menu) throws ValorFueraDeRangoException, NumberFormatException, IOException {
+		int resultado = 0;
+		int min = Integer.parseInt(menu.split("-")[0].substring(menu.split("-")[0].length()-1));
+		int max = Integer.parseInt(menu.split("-")[menu.split("-").length-2].substring(menu.split("-")[menu.split("-").length-2].length()-1));
+		
+		System.out.println(menu);
+		resultado = Integer.parseInt(teclado.readLine());
+		if (resultado > max || resultado < min) {
+			throw new ValorFueraDeRangoException();
+		}
+		return resultado;
+	}
+	/**
+	 * pre: 
+	 * 
+	 * post:
+	 * 
+	 */
+	private static String msgUsuario(String msg){
+		String resultado = "";
+		
+		do {	
+			System.out.print(msg);
+		  	try {
+		  		resultado = teclado.readLine();
+			} catch (IOException e) {
+				System.err.print("Error");
+			}
+		} while (resultado == "");
+		
+		return resultado;
 	}
 	/**
 	 * pre: 
