@@ -110,7 +110,7 @@ class Empresa {
 						break;
 				}	
 				salir = !salir;
-			} catch (ValorFueraDeRangoException | NumberFormatException | CuilInvalidoExcepcion e) {
+			} catch (ValorFueraDeRangoException | NumberFormatException | CuilInvalidoExcepcion | DniInvalidoExcepcion | NombreInvalidoExcepcion e) {
 				System.err.print(e.getMessage() + "\n");
 			}
 		}while(!salir);

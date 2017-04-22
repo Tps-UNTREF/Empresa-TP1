@@ -1,7 +1,9 @@
 package Clases;
 import Excepciones.CuilInvalidoExcepcion;
+import Excepciones.DniInvalidoExcepcion;
 import Excepciones.ErrorDeComision;
 import Excepciones.ErrorVentasRealizadas;
+import Excepciones.NombreInvalidoExcepcion;
 
 public class EmpleadoPorHoraAComision extends EmpleadoPorHora {
 
@@ -13,7 +15,7 @@ public class EmpleadoPorHoraAComision extends EmpleadoPorHora {
 	 * post:
 	 * 
 	 */
-	public EmpleadoPorHoraAComision(String nombre, String cuil, double sueldoPorHora , int comision) throws NumberFormatException, CuilInvalidoExcepcion {
+	public EmpleadoPorHoraAComision(String nombre, String cuil, double sueldoPorHora , int comision) throws NumberFormatException, CuilInvalidoExcepcion, DniInvalidoExcepcion, NombreInvalidoExcepcion {
 		super(nombre, cuil, sueldoPorHora);
 		this.comision = comision;
 	}

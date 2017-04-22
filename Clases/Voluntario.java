@@ -1,5 +1,8 @@
 package Clases;
 
+import Excepciones.DniInvalidoExcepcion;
+import Excepciones.NombreInvalidoExcepcion;
+
 public class Voluntario extends Trabajador {
 	/**
 	 * pre : 
@@ -7,7 +10,7 @@ public class Voluntario extends Trabajador {
 	 * post:
 	 * 
 	 */
-	public Voluntario(String nombre, int dni) {
+	public Voluntario(String nombre, int dni) throws DniInvalidoExcepcion, NombreInvalidoExcepcion {
 		super(nombre, dni);
 	}
 	/**

@@ -5,3 +5,5 @@
 /ValorFueraDeRangoException.class
 /ErrorValorEnSueldo.class
 /CuilInvalidoExcepcion.class
+/DniInvalidoExcepcion.class
+/NombreInvalidoExcepcion.class
