@@ -1,0 +1,1 @@
+0.Tipo: Empleado Nombre: Franco Cuil: 20389919110 Sueldo: 15000.0 

@@ -1,9 +1,9 @@
+package Excepciones;
 
+@SuppressWarnings("serial")
 public class PremioInvalidoExcepcion extends Exception {
-
-	public PremioInvalidoExcepcion() {}
-	
-	public String error() {
+	@Override
+	public String getMessage() {
 		return "Ingresar un premio valido";
 	}
 	
