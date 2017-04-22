@@ -10,13 +10,42 @@ import Clases.EmpleadoPorHora;
 import Clases.EmpleadoPorHoraAComision;
 import Excepciones.CuilInvalidoExcepcion;
 import Excepciones.ErrorDeComision;
+import Excepciones.ErrorValorEnSueldo;
 import Excepciones.ErrorVentasRealizadas;
 import Excepciones.HorasTrabajadasInvalidasExcepcion;
 
 
 public class EmpresaTest {
 
+	///---------------------------------------------TEST DE EMPLEADO----------------------------------------------//
+	public void Empleado_ProbarCuil() throws NumberFormatException, CuilInvalidoExcepcion {
+		Empleado empleado = new Empleado("Matias Juguera","20205446530",150000.0);
+		assertEquals("20205446530" , empleado.getCuil());
+	}
+	
 	@Test
+	public void Empleado_ProbarNombre() throws NumberFormatException, CuilInvalidoExcepcion {
+		Empleado empleado = new Empleado("Nicolas Hansen","20205446530",150000.0);
+		assertEquals("Nicolas Hansen" , empleado.getNombre());
+	}
+	
+	@Test
+	public void Empleado_ProbarSueldo() throws NumberFormatException, CuilInvalidoExcepcion {
+		Empleado empleado = new Empleado("Matias Bellotti","20205446530",150000.0);
+		assertEquals(150000.0 , empleado.getSueldo(), 0.0);
+	}
+	
+	@Test (expected = CuilInvalidoExcepcion.class)
+	public void Empleado_ProbarCuil_EsperandoError() throws NumberFormatException, CuilInvalidoExcepcion {
+		new Empleado("Franco de Alessandro","20544653",150000.0);
+	}
+	
+	@Test (expected = ErrorValorEnSueldo.class)
+	public void Empleado_ProbarSueldo_EsperandoError() throws ErrorValorEnSueldo, CuilInvalidoExcepcion {
+		new Empleado("Matias Bellotti","20205446530",-150.0);
+	}
+	///---------------------------------------------TEST DE EMPLEADOPORHORAACOMISION----------------------------------------------//
+		@Test
 	public void EmpleadoPorHoraAComision_ProbarNombre() throws NumberFormatException, CuilInvalidoExcepcion, ErrorDeComision {
 		EmpleadoPorHoraAComision empleado = new EmpleadoPorHoraAComision("Matias Juguera","XX39560630X",20,20);
 		assertEquals("Matias Juguera",empleado.getNombre());	
@@ -35,6 +64,7 @@ public class EmpresaTest {
 	public void EmpleadoPorHoraAComision_ProbarComisionMenorA0() throws NumberFormatException, CuilInvalidoExcepcion, ErrorDeComision {
 		EmpleadoPorHoraAComision empleado = new EmpleadoPorHoraAComision("Matias Juguera","XX39560630X",20,0);	
 	}
+	
 	@Test
 	public void EmpleadoPorHoraAComision_ProbarCambiarComision() throws NumberFormatException, CuilInvalidoExcepcion, ErrorDeComision {
 		EmpleadoPorHoraAComision empleado = new EmpleadoPorHoraAComision("Matias Juguera","XX39560630X",20,20);
