@@ -8,7 +8,7 @@ public class EmpleadoPorHoraAComision extends EmpleadoPorHora {
 	int comision;
 	int ventasRealizadas;
 	/**
-	 * pre : 
+	 * pre: 
 	 * 
 	 * post:
 	 * 
