@@ -10,100 +10,63 @@ public class EmpleadoPorHoraAComision extends EmpleadoPorHora {
 	int comision;
 	int ventasRealizadas;
 	/**
-	 * pre : 
-	 * 
-	 * post:
-	 * 
+	 * pre: Se le ingresa nombre, cuil de 11 digitos, sueldo por hora y una comision. 
 	 */
-	public EmpleadoPorHoraAComision(String nombre, String cuil, double sueldoPorHora , int comision) throws NumberFormatException, CuilInvalidoExcepcion, DniInvalidoExcepcion, NombreInvalidoExcepcion {
+	public EmpleadoPorHoraAComision(String nombre, String cuil, double sueldoPorHora , int comision) throws NumberFormatException, CuilInvalidoExcepcion, DniInvalidoExcepcion, NombreInvalidoExcepcion, ErrorDeComision {
 		super(nombre, cuil, sueldoPorHora);
-		this.comision = comision;
+		setCambiarComision(comision);
 	}
 	/**
-	 * pre : 
 	 * 
-	 * post:
+	 * 
+	 * post: Obtenes el valor de la comision en un valor entero.
 	 * 
 	 */
 	public int getComision() {
 		return comision;
 	}
 	/**
-	 * pre : 
-	 * 
-	 * post:
-	 * 
+	 * pre: Se le ingresa un entero como nuevo porcentaje de comision, la comision tiene que ser mayor a 0 y menor o igual a 100.
+	 * post: Cambia la comision que ya teniamos.  
 	 */
-	public void setCambiarComision(int comision) {
-		
-		try{
-			if(comision > 0){
-				
-				this.comision = comision;
-			}else{
-				
-				throw new ErrorDeComision();
-				
-			}
+	public void setCambiarComision(int comision) throws ErrorDeComision {
+		if(comision > 0 && comision <= 100){
+			this.comision = comision;
+		}else{
+			throw new ErrorDeComision();	
 		}	
-			catch(ErrorDeComision e){
-				
-				System.out.println(e.getMessage());
-				
-			}
-		
 	}
 	/**
-	 * pre : 
-	 * 
-	 * post:
+	 * post: Se obtiene la cantidad de ventas realizadas.
 	 * 
 	 */
 	public int getVentasRealizadas() {
-		
 		return ventasRealizadas;
 	}
 	/**
-	 * pre : 
-	 * 
-	 * post:
-	 * 
+	 * pre: Se ingresa le ingresa un entero que son la cantidad de ventas que realizó, estas ventas no pueden ser menor a 0.
+	 * post: Cambia el valor de las ventas realizadas.
 	 */
 	public void setVentasRealizadas(int ventasRealizadas) throws ErrorVentasRealizadas {
-		
 		if(ventasRealizadas < 0){
-			
-			throw new ErrorVentasRealizadas();
-			
+			throw new ErrorVentasRealizadas();	
 		}else{
-			
-			this.ventasRealizadas = ventasRealizadas;
-			
+			this.ventasRealizadas = ventasRealizadas;	
 		}
 	}
 	/**
-	 * pre : 
-	 * 
-	 * post:
+	 * post: Se obtiene el valor del sueldo, sabiendo la cantidad de ventas realizadas y 
 	 * 
 	 */
 	public double getSueldo(){
-		
 		double comisionEnVentas = 0;
-		
 		comisionEnVentas = (this.comision * this.ventasRealizadas) / 100;
-		
-		
 		return comisionEnVentas + super.getSueldo();
 	}
-	/**
-	 * pre : 
-	 * 
-	 * post:
-	 * 
+	/** 
+	 * post: Devuelve la descripcion del EmpleadoPorHoraAComision
 	 */
 	public String toString(){
-		
 		return "Tipo: EmpleadoPorHoraAComision"+" Nombre: " + super.getNombre() + "Cuil: " + super.getCuil() + super.getSueldo() + " Comision: " + this.getComision();
 	}
 }

@@ -110,7 +110,7 @@ class Empresa {
 						break;
 				}	
 				salir = !salir;
-			} catch (ValorFueraDeRangoException | NumberFormatException | CuilInvalidoExcepcion | DniInvalidoExcepcion | NombreInvalidoExcepcion e) {
+			} catch (ValorFueraDeRangoException | NumberFormatException | CuilInvalidoExcepcion | DniInvalidoExcepcion | NombreInvalidoExcepcion | ErrorDeComision e) {
 				System.err.print(e.getMessage() + "\n");
 			}
 		}while(!salir);
@@ -120,7 +120,6 @@ class Empresa {
 	 * pre: 
 	 * 
 	 * post:
-	 * @throws IOException 
 	 * 
 	 */
 	public static void getDescripcionTrabajador(int dni) throws IOException{ //la cambie de String a void
