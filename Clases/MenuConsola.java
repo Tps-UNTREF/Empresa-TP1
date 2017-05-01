@@ -5,9 +5,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Map.Entry;
+import java.util.List;
 
 import Excepciones.CuilInvalidoExcepcion;
 import Excepciones.DniInvalidoExcepcion;
@@ -25,6 +23,7 @@ public class MenuConsola {
 	private static Empresa empresa = new Empresa();
 	/**
 	 * post: Inicia el programa
+	 * @author Matias Juguera, Franco de Alesandro, Matias Bellotti, Nicolas Hansen
 	 */
 	public static void main(String[] args) throws IOException{
 		teclado = new BufferedReader(new InputStreamReader(System.in));
@@ -61,7 +60,9 @@ public class MenuConsola {
 						modificarTrabajador();
 						break;
 					case 4:
-						listarSueldoDeTrabajadores();
+						ListarYGuardarTrabajadores();
+						System.out.println("Precione Enter para continuar");
+						teclado.readLine();
 						break;
 					case 5:
 						darPremioAEjecutivo(Integer.parseInt(msgUsuario("Ingrese DNI del ejecutivo: ")),Double.parseDouble(msgUsuario("Ingrese premio del ejecutivo: ")));
@@ -79,6 +80,23 @@ public class MenuConsola {
 				System.err.println(e.getMessage());
 			}
 		}while(!salir);
+	}
+	/**
+	 * pre: Lista todos los trabajadores por sueldo, los muestra en consola y los guarda en un archivo .txt en "Extras/empleados.txt"
+	 * @throws IOException 
+	 */
+	private static void ListarYGuardarTrabajadores() throws IOException {
+		List<Trabajador> listaOrdenada = empresa.listarSueldoDeTrabajadores();					
+		int i = 0;
+		
+		File f = new File("Extras/empleados.txt");
+		FileWriter fw = new FileWriter(f);
+		for(Trabajador e: listaOrdenada){
+			fw.write(i+"."+e.toString()+" \n");
+			System.out.println(i+"."+e.toString());
+			i++;
+		}
+		fw.close();
 	}
 	/**
 	 * pre: Se le ingresa dni para identificar al empleado por hora a comision y setearle horas trabajadas y ventas realizadas.
@@ -358,39 +376,6 @@ public class MenuConsola {
 					break;
 			}		
 		} while (volver);
-	}
-	/**
-	 * pre: 
-	 * 
-	 * post:
-	 * 
-	 */
-	public static void listarSueldoDeTrabajadores() throws IOException{
-		ArrayList<Empleado> empleados = new ArrayList<>();
-		for(Entry<Integer, Trabajador> t : empresa.getTrabajadores().entrySet()){
-			if(t.getValue() instanceof Empleado){
-				empleados.add((Empleado)t.getValue());
-			}
-		}
-		Collections.sort(empleados);
-		int i = 0;
-		File f = new File("Extras/empleados.txt");
-		FileWriter fw = new FileWriter(f);
-		for(Empleado e: empleados){
-			fw.write(i+"."+e.toString()+" \n");
-			System.out.println(i+"."+e.toString());
-			i++;
-		}
-		for(Entry<Integer, Trabajador> t : empresa.getTrabajadores().entrySet()){
-			if(t.getValue() instanceof Voluntario){
-				fw.write(i+"."+t.getValue().toString()+" \n");
-				System.out.println(i+"."+t.getValue().toString());
-				i++;
-			}
-		}
-		fw.close();
-		System.out.println("Precione Enter para continuar");
-		teclado.readLine();
 	}
 	/**
 	 * pre: menu=Menu que se le presentará al usuario. Debe tener las opciones te tal manera "{Numero}-{Opcion}"

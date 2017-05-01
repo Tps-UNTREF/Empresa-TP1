@@ -2,7 +2,9 @@ package Tests;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.junit.Test;
@@ -325,5 +327,45 @@ public class EmpresaTest {
 		Empresa empresa = new Empresa();
 		empresa.obtenerTrabajadorByDni(20544653);
 	}
+	
+	@Test
+	public void empresa_ListarSueldoDeTrabajadores() throws NumberFormatException, CuilInvalidoExcepcion, DniInvalidoExcepcion, NombreInvalidoExcepcion, IOException {
+		List<Trabajador> lista = new LinkedList<Trabajador>();
+		lista.add(new Empleado("Matias Juguera","20205446500",150000.0));
+		lista.add(new Empleado("Matias Juguera","20205446511",200000.0));
+		lista.add(new Empleado("Matias Juguera","20205446522",100000.0));
+		Empresa empresa = new Empresa();
+		empresa.setTrabajadores(lista);
+		assertTrue(checkOrdenada(empresa.listarSueldoDeTrabajadores()));
+	}
+	
+	@Test
+	public void empresa_ListarSueldoDeTrabajadores2() throws NumberFormatException, CuilInvalidoExcepcion, DniInvalidoExcepcion, NombreInvalidoExcepcion, IOException {
+		List<Trabajador> lista = new LinkedList<Trabajador>();
+		lista.add(new Empleado("Matias Juguera","20205446500",150000.0));
+		lista.add(new Empleado("Matias Juguera","20205446511",200000.0));
+		lista.add(new EmpleadoPorHora("Matias Juguera","20205446522",100));
+		lista.add(new Empleado("Matias Juguera","20205446533",170000.0));
+		lista.add(new Empleado("Matias Juguera","20205446544",100000.0));
+		lista.add(new Voluntario("Matias Juguera",20544655));
+		lista.add(new Ejecutivo("Matias Juguera","20205446566",180000.0));
+		Empresa empresa = new Empresa();
+		empresa.setTrabajadores(lista);
+		assertTrue(checkOrdenada(empresa.listarSueldoDeTrabajadores()));
+	}
+
+	private boolean checkOrdenada(List<Trabajador> lista) {
+		double sueldoAnterior = -1.0;
+		for (Trabajador t : lista) {
+			if (t instanceof Empleado) {
+				if (sueldoAnterior != -1.0 && sueldoAnterior < ((Empleado) t).getSueldo()) {
+					return false;
+				}
+				sueldoAnterior = ((Empleado) t).getSueldo();
+			}
+		}
+		return true;
+	}
+
 	
 }

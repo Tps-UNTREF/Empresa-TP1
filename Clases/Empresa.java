@@ -1,8 +1,12 @@
 package Clases;
 
+import java.io.IOException;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import Excepciones.DniInvalidoExcepcion;
 
@@ -75,4 +79,27 @@ public class Empresa {
 		return trabajadores.get(Dni);
 	}
 	
+	/**
+	 * post: Devuelve una lista de trabajadores ordenadas por sueldo
+	 */
+	public List<Trabajador> listarSueldoDeTrabajadores() throws IOException{
+		List<Trabajador> lista = new LinkedList<Trabajador>();
+		//Creo una lista de empleados para ordenarlos por sueldo por que solo ellos tienen sueldo
+		List<Empleado> listaEmpleados = new LinkedList<Empleado>();
+		//Cargo cada uno de los empleados
+		for(Entry<Integer, Trabajador> t : trabajadores.entrySet()){
+			if(t.getValue() instanceof Empleado){
+				listaEmpleados.add((Empleado)t.getValue());
+			}
+		}
+		Collections.sort(listaEmpleados); //Ordeno
+		lista.addAll(listaEmpleados); //Los agrego a la lista
+		//Agrego todos los voluntarios al final
+		for(Entry<Integer, Trabajador> t : trabajadores.entrySet()){
+			if(t.getValue() instanceof Voluntario){
+				lista.add(t.getValue());
+			}
+		}
+		return lista;
+	}
 }
