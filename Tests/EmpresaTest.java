@@ -8,6 +8,7 @@ import Clases.Ejecutivo;
 import Clases.Empleado;
 import Clases.EmpleadoPorHora;
 import Clases.EmpleadoPorHoraAComision;
+import Clases.Voluntario;
 import Excepciones.CuilInvalidoExcepcion;
 import Excepciones.DniInvalidoExcepcion;
 import Excepciones.ErrorValorEnSueldo;
@@ -15,6 +16,7 @@ import Excepciones.ErrorDeComision;
 import Excepciones.ErrorVentasRealizadas;
 import Excepciones.HorasTrabajadasInvalidasExcepcion;
 import Excepciones.NombreInvalidoExcepcion;
+import Excepciones.PremioInvalidoExcepcion;
 
 
 public class EmpresaTest {
@@ -53,8 +55,48 @@ public class EmpresaTest {
 //	public void _TrabajadorNewConDniInvalidoNegativo() throws DniInvalidoExcepcion, NombreInvalidoExcepcion{
 //		new Trabajador("Franco De Alesandro", -3899191);
 //	}
+	///---------------------------------------------TEST DE VOLUNTARIO----------------------------------------------//
+	
+	@Test
+	public void Voluntario_Nombre() throws DniInvalidoExcepcion, NombreInvalidoExcepcion{
+		Voluntario t = new Voluntario("Franco De Alesandro", 38991911);
+		assertEquals("Franco De Alesandro", t.getNombre());
+	}
+	
+	@Test
+	public void Voluntario_ProbarDNI() throws DniInvalidoExcepcion, NombreInvalidoExcepcion{
+		Voluntario t = new Voluntario("Franco De Alesandro", 38991911);
+		assertEquals(38991911, t.getDni(), 0);
+	}
+
+	@Test
+	public void Voluntario_TrabajadorNewMasChico() throws DniInvalidoExcepcion, NombreInvalidoExcepcion{
+		Voluntario t = new Voluntario("Franco De Alesandro", 8991911);
+		assertEquals(8991911, t.getDni(), 0);
+	}
+	
+	@Test(expected=NombreInvalidoExcepcion.class)
+	public void Voluntario_SinNombre() throws DniInvalidoExcepcion, NombreInvalidoExcepcion{
+		new Voluntario("", 389919111);
+	}
+	
+	@Test(expected=NombreInvalidoExcepcion.class)
+	public void Voluntario_NombreConNumeros() throws DniInvalidoExcepcion, NombreInvalidoExcepcion{
+		new Voluntario("123", 389919111);
+	}
+
+	@Test(expected=DniInvalidoExcepcion.class)
+	public void Voluntario_DNIMasGrandeDeLoPermitido() throws DniInvalidoExcepcion, NombreInvalidoExcepcion{
+		new Voluntario("Franco De Alesandro", 389919111);
+	}
+	
+	@Test(expected=DniInvalidoExcepcion.class)
+	public void Voluntario_DNINegativo() throws DniInvalidoExcepcion, NombreInvalidoExcepcion{
+		new Voluntario("Franco De Alesandro", -3899191);
+	}
 	
 	///---------------------------------------------TEST DE EMPLEADO----------------------------------------------//
+	@Test
 	public void Empleado_ProbarCuil() throws NumberFormatException, CuilInvalidoExcepcion, DniInvalidoExcepcion, NombreInvalidoExcepcion {
 		Empleado empleado = new Empleado("Matias Juguera","20205446530",150000.0);
 		assertEquals("20205446530" , empleado.getCuil());
@@ -64,14 +106,6 @@ public class EmpresaTest {
 	public void Empleado_ProbarNombre() throws NumberFormatException, CuilInvalidoExcepcion, DniInvalidoExcepcion, NombreInvalidoExcepcion {
 		Empleado empleado = new Empleado("Nicolas Hansen","20205446530",150000.0);
 		assertEquals("Nicolas Hansen" , empleado.getNombre());
-	}
-	
-	@Test
-	public void crearEjecutivo() throws NumberFormatException, CuilInvalidoExcepcion, DniInvalidoExcepcion, NombreInvalidoExcepcion {
-		Ejecutivo ejecutivo = new Ejecutivo("Nicolas Hansen","20205446530",150000.0);
-		assertEquals("Nicolas Hansen",ejecutivo.getNombre());
-		assertEquals("20205446530",ejecutivo.getCuil());
-		assertEquals(150000,ejecutivo.getSueldo(),000.0);
 	}
 	
 	public void Empleado_ProbarSueldo() throws NumberFormatException, CuilInvalidoExcepcion, DniInvalidoExcepcion, NombreInvalidoExcepcion {
@@ -88,33 +122,27 @@ public class EmpresaTest {
 	public void Empleado_ProbarSueldo_EsperandoError() throws CuilInvalidoExcepcion, NumberFormatException, DniInvalidoExcepcion, NombreInvalidoExcepcion {
 		new Empleado("Matias Bellotti","20205446530",-150.0);
 	}
+	///---------------------------------------------TEST DE EJECUTIVO----------------------------------------------//
+	
+	@Test
+	public void Ejecutivo_ProbarPremio() throws NumberFormatException, CuilInvalidoExcepcion, DniInvalidoExcepcion, NombreInvalidoExcepcion, PremioInvalidoExcepcion {
+		Ejecutivo ejecutivo = new Ejecutivo("Matias Juguera","20205446530",150000.0);
+		ejecutivo.setPremio(20);
+		assertEquals( 20 , ejecutivo.getPremio(),0.00000);
+	}
+	@Test
+	public void Ejecutivo_ProbarSueldo() throws NumberFormatException, CuilInvalidoExcepcion, DniInvalidoExcepcion, NombreInvalidoExcepcion, PremioInvalidoExcepcion {
+		Ejecutivo ejecutivo = new Ejecutivo("Matias Juguera","20205446530",150000.0);
+		ejecutivo.setPremio(20);
+		assertEquals( 150020 , ejecutivo.getSueldo(),0.00000);
+	}
 	
 	///---------------------------------------------TEST DE EMPLEADOPORHORA----------------------------------------------//
 	
-	@Test
-	public void crearEmpleadoPorHora() throws HorasTrabajadasInvalidasExcepcion, NumberFormatException, CuilInvalidoExcepcion, DniInvalidoExcepcion, NombreInvalidoExcepcion {
-		EmpleadoPorHora empleadoPorHora = new EmpleadoPorHora("Matias Bellotti","20205446530",80.0);
-		empleadoPorHora.setHorasTrabajadas(10);
-		assertEquals(10,empleadoPorHora.getHorasTrabajadas());
-		assertEquals("Matias Bellotti",empleadoPorHora.getNombre());
-		assertEquals("20205446530",empleadoPorHora.getCuil());
-		assertEquals(800,empleadoPorHora.getSueldo(),000.0);
-	}
 		
 	public void empleadoPorHora_ProbarNombre() throws NumberFormatException, CuilInvalidoExcepcion, DniInvalidoExcepcion, NombreInvalidoExcepcion {
 		EmpleadoPorHora empleado = new EmpleadoPorHora("Matias Bellotti","20205446530",100);
 		assertEquals("Matias Bellotti" , empleado.getNombre());
-	}
-	
-	@Test
-	public void crearEmpleadoPorHoraAComision() throws HorasTrabajadasInvalidasExcepcion, ErrorVentasRealizadas, NumberFormatException, CuilInvalidoExcepcion, DniInvalidoExcepcion, NombreInvalidoExcepcion, ErrorDeComision {
-		EmpleadoPorHoraAComision empleadoPorHoraAComision = new EmpleadoPorHoraAComision("Franco de Alessandro","20205446530",80.0,50);
-		empleadoPorHoraAComision.setHorasTrabajadas(100);
-		empleadoPorHoraAComision.setVentasRealizadas(10);
-		assertEquals(100,empleadoPorHoraAComision.getHorasTrabajadas());
-		assertEquals("Franco de Alessandro",empleadoPorHoraAComision.getNombre());
-		assertEquals("20205446530",empleadoPorHoraAComision.getCuil());
-		assertEquals(8005,empleadoPorHoraAComision.getSueldo(),000.0);
 	}
 		
 	public void empleadoPorHora_ProbarCuil() throws NumberFormatException, CuilInvalidoExcepcion, DniInvalidoExcepcion, NombreInvalidoExcepcion {
@@ -133,6 +161,17 @@ public class EmpresaTest {
 		empleado.setHorasTrabajadas(100);
 		assertEquals(10000,empleado.getSueldo(), 0.01);
 	}	
+	
+	@Test(expected = ErrorValorEnSueldo.class)
+	public void empleadoPorHora_ProbarSueldoPorHoraInvalido() throws NumberFormatException, CuilInvalidoExcepcion, HorasTrabajadasInvalidasExcepcion, DniInvalidoExcepcion, NombreInvalidoExcepcion {
+		new EmpleadoPorHora("Matias Bellotti","20205446530",-100);
+	}
+	
+	@Test(expected = HorasTrabajadasInvalidasExcepcion.class)
+	public void empleadoPorHora_ProbarHorasTrabajadasInvalidas() throws NumberFormatException, CuilInvalidoExcepcion, HorasTrabajadasInvalidasExcepcion, DniInvalidoExcepcion, NombreInvalidoExcepcion {
+		EmpleadoPorHora empleado = new EmpleadoPorHora("Matias Bellotti","20205446530",100);
+		empleado.setHorasTrabajadas(-100);
+	}
 	
 	///---------------------------------------------TEST DE EMPLEADOPORHORAACOMISION----------------------------------------------//
 		@Test
@@ -185,14 +224,9 @@ public class EmpresaTest {
 		assertEquals(12804,empleado.getSueldo(),00000.1);	
 	}
 	
-	@Test(expected = ErrorValorEnSueldo.class)
-	public void empleadoPorHora_ProbarSueldoPorHoraInvalido() throws NumberFormatException, CuilInvalidoExcepcion, HorasTrabajadasInvalidasExcepcion, DniInvalidoExcepcion, NombreInvalidoExcepcion {
-		new EmpleadoPorHora("Matias Bellotti","20205446530",-100);
-	}
 	
-	@Test(expected = HorasTrabajadasInvalidasExcepcion.class)
-	public void empleadoPorHora_ProbarHorasTrabajadasInvalidas() throws NumberFormatException, CuilInvalidoExcepcion, HorasTrabajadasInvalidasExcepcion, DniInvalidoExcepcion, NombreInvalidoExcepcion {
-		EmpleadoPorHora empleado = new EmpleadoPorHora("Matias Bellotti","20205446530",100);
-		empleado.setHorasTrabajadas(-100);
-	}
+	
+	
+	
+
 }

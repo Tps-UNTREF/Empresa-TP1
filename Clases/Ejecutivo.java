@@ -8,18 +8,16 @@ public class Ejecutivo extends Empleado {
 	
 	private double premio;
 	/**
-	 * pre : 
-	 * 
-	 * post: 
+	 * pre : Se ingresa un nombre, un cuil de 11 digitos y un sueldo correcto.
 	 * 
 	 */
 	public Ejecutivo(String nombre, String cuil, double sueldo) throws NumberFormatException, CuilInvalidoExcepcion, DniInvalidoExcepcion, NombreInvalidoExcepcion {
 		super(nombre, cuil, sueldo);
 	}
 	/**
-	 * pre : 
+	 * pre : Se ingresa un premio valido.
 	 * 
-	 * post:
+	 * post: Establece el premio del ejecutivo.
 	 * 
 	 */
 	public void setPremio(double premio) throws PremioInvalidoExcepcion {
@@ -35,18 +33,14 @@ public class Ejecutivo extends Empleado {
 		}
 	}
 	/**
-	 * pre : 
-	 * 
-	 * post:
+	 * post: Devuelve el premio.
 	 * 
 	 */
 	public double getPremio() {
 		return this.premio;
 	}
 	/**
-	 * pre : 
-	 * 
-	 * post:
+	 * post: Devuelve la suma del premio con el sueldo del ejecutivo.
 	 * 
 	 */
 	@Override
@@ -54,9 +48,7 @@ public class Ejecutivo extends Empleado {
 		return super.getSueldo() + premio;
 	}
 	/**
-	 * pre : 
-	 * 
-	 * post:
+	 * post:Devuelve la descripcion del ejecutivo.
 	 * 
 	 */
 	public String toString() {

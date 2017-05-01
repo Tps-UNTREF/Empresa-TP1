@@ -1,2 +1,5 @@
-0.Tipo: Empleado Nombre: matias Cuil: 23395606302 Sueldo: 21000.0 
-1.Tipo: Empleado Nombre: franco Cuil: 20389919111 Sueldo: 20000.0 
+0.Tipo: EmpleadoPorHora Nombre: nico hansen Cuil :13385331232 Sueldo por hora: 16000.0 
+1.Tipo: Empleado Nombre: Matias Cuil: 12395605301 Sueldo: 16000.0 
+2.Tipo: Ejecutivo Nombre: mati b CUIL: 12367893212 Sueldo: 14000.0 
+3.Tipo: EmpleadoPorHoraAComision Nombre: maxi el turroCuil: 125423432120.0 Comision: 40 
+4.Tipo: Voluntario Nombre: franco DNI: 23456123 

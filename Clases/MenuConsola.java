@@ -33,10 +33,12 @@ public class MenuConsola {
 		teclado.close();
 	}
 	/**
-	 * pre: 
-	 * 
+
 	 * post:
 	 * Metodo en el cual se muestra al menu principal
+	 * @throws HorasTrabajadasInvalidasExcepcion 
+	 * @throws PremioInvalidoExcepcion 
+	 * @throws ErrorVentasRealizadas 
 	 */
 	private static void seleccionadorDeMenu(){	
 		do{
@@ -46,7 +48,10 @@ public class MenuConsola {
 						+ "2-Agregar un trabajador\n"
 						+ "3-Obtener un trabajador para modificarle los datos\n"
 						+ "4-Obtener la lista de los trabajadores\n"
-						+ "5-Salir")) {
+						+ "5-Dar Premio a un Ejecutivo\n"
+						+ "6-Ingresar horas trabajadas a un empleado por hora \n"
+						+ "7-Ingresar horas trabajadas y ventas realizadas a un empleado por hora a comision\n"
+						+ "8-Salir")) {
 					case 1:
 						getDescripcionTrabajador(Integer.parseInt(msgUsuario("Ingrese DNI del trabajador " + 
 								"que quiera la descripcion: ")));
@@ -61,12 +66,68 @@ public class MenuConsola {
 						listarSueldoDeTrabajadores();
 						break;
 					case 5:
+						darPremioAEjecutivo(Integer.parseInt(msgUsuario("Ingrese DNI del ejecutivo: ")),Double.parseDouble(msgUsuario("Ingrese premio del ejecutivo: ")));
+						break;
+					case 6:
+						ingresarHorasTrabajadasEmpleadoPorHora(Integer.parseInt(msgUsuario("Ingrese DNI del empleado por hora: ")),Integer.parseInt(msgUsuario("Ingrese horas trabajadas: ")));
+						break;
+					case 7:
+						ingresarHorasTrabajadasYVentasEmpleadoPorHoraAComision(Integer.parseInt(msgUsuario("Ingrese DNI del empleado por hora a comision: ")),Integer.parseInt(msgUsuario("Ingrese horas trabajadas: ")),Integer.parseInt(msgUsuario("Ingrese ventas realizadas: ")));
+						break;
+					case 8:
 						salir = !salir;
 				}
 			} catch (ValorFueraDeRangoException | NumberFormatException | IOException e) {
 				System.err.println(e.getMessage());
 			}
 		}while(!salir);
+	}
+	/**
+	 * pre: Se le ingresa dni para identificar al empleado por hora a comision y setearle horas trabajadas y ventas realizadas.
+	 * @throws IOException 
+	 */
+	private static void ingresarHorasTrabajadasYVentasEmpleadoPorHoraAComision(int dni,int horasTrabajadas,int ventasRealizadas) throws IOException{
+		try {
+			 if (empresa.obtenerTrabajadorByDni(dni) instanceof EmpleadoPorHoraAComision) {
+				((EmpleadoPorHoraAComision)empresa.obtenerTrabajadorByDni(dni)).setHorasTrabajadas(horasTrabajadas);
+				((EmpleadoPorHoraAComision)empresa.obtenerTrabajadorByDni(dni)).setVentasRealizadas(ventasRealizadas);
+			 }
+		} catch (DniInvalidoExcepcion | HorasTrabajadasInvalidasExcepcion | ErrorVentasRealizadas e) {
+			System.err.println(e.getMessage());
+		}
+		System.out.println("Precione Enter para continuar");
+		teclado.readLine();	
+		
+	}
+	/**
+	 * pre: Se le ingresa dni que identifica al empleado por horas para setearle horas trabajadas. 
+
+	 */
+	private static void ingresarHorasTrabajadasEmpleadoPorHora(int dni,int horasTrabajadas) throws IOException {
+		try {
+			 if (empresa.obtenerTrabajadorByDni(dni) instanceof EmpleadoPorHora) {
+				((EmpleadoPorHora)empresa.obtenerTrabajadorByDni(dni)).setHorasTrabajadas(horasTrabajadas);;
+			 }
+		} catch (DniInvalidoExcepcion | HorasTrabajadasInvalidasExcepcion e) {
+			System.err.println(e.getMessage());
+		}
+		System.out.println("Precione Enter para continuar");
+		teclado.readLine();	
+	}
+	/**
+	 * pre:  Se le ingresa dni que identifica al ejectuvio para darle un premio.
+ 
+	 */
+	private static void darPremioAEjecutivo(int dni,double premio) throws IOException {
+		try {
+			 if (empresa.obtenerTrabajadorByDni(dni) instanceof Ejecutivo) {
+				((Ejecutivo)empresa.obtenerTrabajadorByDni(dni)).setPremio(premio);
+			 }
+		} catch (DniInvalidoExcepcion | PremioInvalidoExcepcion  e) {
+			System.err.println(e.getMessage());
+		}
+		System.out.println("Precione Enter para continuar");
+		teclado.readLine();
 	}
 	/**
 	 * pre: 
@@ -162,7 +223,7 @@ public class MenuConsola {
 			 	} else if (t instanceof Empleado) {
 					modificarEmpleado((Empleado)t);
 				}
-				volver = printMenu("Desea finalizar la edicion? \n 1-Seguir \n 0-Terminar") == 1;
+				volver = printMenu("Desea finalizar la edicion? \n 1-Seguir \n 2-Terminar") == 1;
 			} catch (Exception e) {
 				System.err.println(e.getMessage());
 				volver = !volver;
