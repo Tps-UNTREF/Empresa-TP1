@@ -12,8 +12,8 @@ public class Empleado extends Trabajador implements Comparable<Empleado> {
 	 * 
 	 */
 	public Empleado(String nombre, String cuil, double sueldo) throws NumberFormatException, CuilInvalidoExcepcion, DniInvalidoExcepcion, NombreInvalidoExcepcion {
-		super(nombre, Integer.parseInt(validarCuil(cuil).substring(2, 10)));
-		setCuil(cuil);
+		super(nombre, Integer.parseInt(validarCuil(cuil.replace("-", "")).substring(2, 10)));
+		setCuil(cuil.replace("-", ""));
 		setSueldo(sueldo);
 	}
 	/**
