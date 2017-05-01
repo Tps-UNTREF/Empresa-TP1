@@ -162,7 +162,7 @@ public class MenuConsola {
 			 	} else if (t instanceof Empleado) {
 					modificarEmpleado((Empleado)t);
 				}
-				volver = printMenu("Desea finalizar la edicion? \n 1-Seguir \n 0-Terminar") == 1;
+				volver = printMenu("Desea finalizar la edicion? \n 1-Seguir \n 2-Terminar") == 1;
 			} catch (Exception e) {
 				System.err.println(e.getMessage());
 				volver = !volver;

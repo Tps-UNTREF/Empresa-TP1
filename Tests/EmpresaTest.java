@@ -1,6 +1,9 @@
 package Tests;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -8,6 +11,8 @@ import Clases.Ejecutivo;
 import Clases.Empleado;
 import Clases.EmpleadoPorHora;
 import Clases.EmpleadoPorHoraAComision;
+import Clases.Empresa;
+import Clases.Trabajador;
 import Excepciones.CuilInvalidoExcepcion;
 import Excepciones.DniInvalidoExcepcion;
 import Excepciones.ErrorValorEnSueldo;
@@ -29,9 +34,9 @@ public class EmpresaTest {
 //	
 //	@Test
 //	public void _TrabajadorNewMasChico() throws DniInvalidoExcepcion, NombreInvalidoExcepcion{
-//		Trabajador t = new Trabajador("Franco De Alesandro", 8991911);
+//		Trabajador t = new Trabajador("Franco De Alesandro", 08991911);
 //		assertEquals("Franco De Alesandro", t.getNombre());
-//		assertEquals(8991911, t.getDni(), 0);
+//		assertEquals(08991911, t.getDni(), 0);
 //	}
 //	
 //	@Test(expected=NombreInvalidoExcepcion.class)
@@ -195,4 +200,101 @@ public class EmpresaTest {
 		EmpleadoPorHora empleado = new EmpleadoPorHora("Matias Bellotti","20205446530",100);
 		empleado.setHorasTrabajadas(-100);
 	}
+	
+	///---------------------------------------------TEST DE EMPRESA----------------------------------------------//
+	@Test
+	public void empresa_CrearEmpresa() {
+		new Empresa();
+	}
+	
+	@Test
+	public void empresa_SetGet() throws NumberFormatException, CuilInvalidoExcepcion, DniInvalidoExcepcion, NombreInvalidoExcepcion {
+		List<Trabajador> lista = new ArrayList<Trabajador>();
+		lista.add(new Empleado("Matias Juguera","20205446500",150000.0));
+		lista.add(new Empleado("Matias Juguera","20205446511",150000.0));
+		lista.add(new Empleado("Matias Juguera","20205446522",150000.0));
+		Empresa empresa = new Empresa();
+		empresa.setTrabajadores(lista);
+		assertEquals(3, empresa.getTrabajadores().size());
+	}
+	
+	@Test
+	public void empresa_CrearEmpresaYAlta() throws NumberFormatException, CuilInvalidoExcepcion, DniInvalidoExcepcion, NombreInvalidoExcepcion {
+		Empleado t = new Empleado("Matias Juguera","20205446530",150000.0);
+		Empresa empresa = new Empresa();
+		empresa.altaTrabajador(t);
+		assertEquals(t, empresa.obtenerTrabajadorByDni(20544653));
+	}
+	
+	@Test
+	public void empresa_AltaYBaja() throws NumberFormatException, CuilInvalidoExcepcion, DniInvalidoExcepcion, NombreInvalidoExcepcion {
+		Empleado t = new Empleado("Matias Juguera","20205446530",150000.0);
+		Empresa empresa = new Empresa();
+		empresa.altaTrabajador(t);
+		assertTrue(empresa.bajaTrabajador(t.getDni()));
+	}
+	
+	@Test
+	public void empresa_Alta2Veces() throws NumberFormatException, CuilInvalidoExcepcion, DniInvalidoExcepcion, NombreInvalidoExcepcion {
+		Empleado t = new Empleado("Matias Juguera","20205446530",150000.0);
+		Empresa empresa = new Empresa();
+		empresa.altaTrabajador(t);
+		assertFalse(empresa.altaTrabajador(t));
+	}
+	
+	@Test
+	public void empresa_Baja2Veces() throws NumberFormatException, CuilInvalidoExcepcion, DniInvalidoExcepcion, NombreInvalidoExcepcion {
+		Empleado t = new Empleado("Matias Juguera","20205446530",150000.0);
+		Empresa empresa = new Empresa();
+		empresa.altaTrabajador(t);
+		empresa.bajaTrabajador(t.getDni());
+		assertFalse(empresa.bajaTrabajador(t.getDni()));
+	}
+	
+	@Test
+	public void empresa_BajaSinEmpleados() throws NumberFormatException, CuilInvalidoExcepcion, DniInvalidoExcepcion, NombreInvalidoExcepcion {
+		Empresa empresa = new Empresa();
+		assertFalse(empresa.bajaTrabajador(20544653));
+	}
+	
+	@Test
+	public void empresa_ActualizarTrabajador() throws NumberFormatException, CuilInvalidoExcepcion, DniInvalidoExcepcion, NombreInvalidoExcepcion {
+		Empleado t = new Empleado("Matias Juguera","20205446530",150000.0);
+		Empresa empresa = new Empresa();
+		empresa.altaTrabajador(t);
+		t.setSueldo(200000.0);
+		assertTrue(empresa.actualizarTrabajador(t));
+	}
+	
+	@Test
+	public void empresa_ActualizarTrabajadorQueNoExiste() throws NumberFormatException, CuilInvalidoExcepcion, DniInvalidoExcepcion, NombreInvalidoExcepcion {
+		Empleado t = new Empleado("Matias Juguera","20205446530",150000.0);
+		Empresa empresa = new Empresa();
+		assertFalse(empresa.actualizarTrabajador(t));
+	}
+	
+	@Test
+	public void empresa_CheckTrabajadorModificado() throws NumberFormatException, CuilInvalidoExcepcion, DniInvalidoExcepcion, NombreInvalidoExcepcion {
+		Empleado t = new Empleado("Matias Juguera","20205446530",150000.0);
+		Empresa empresa = new Empresa();
+		empresa.altaTrabajador(t);
+		t.setSueldo(200000.0);
+		empresa.actualizarTrabajador(t);
+		assertEquals(200000.0, ((Empleado)empresa.obtenerTrabajadorByDni(20544653)).getSueldo(), 0.1);
+	}
+	
+	@Test
+	public void empresa_ObtenerTrabajadorByDni() throws NumberFormatException, CuilInvalidoExcepcion, DniInvalidoExcepcion, NombreInvalidoExcepcion {
+		Empleado t = new Empleado("Matias Juguera","20205446530",150000.0);
+		Empresa empresa = new Empresa();
+		empresa.altaTrabajador(t);
+		assertEquals(t, empresa.obtenerTrabajadorByDni(20544653));
+	}
+	
+	@Test(expected = DniInvalidoExcepcion.class)
+	public void empresa_ObtenerTrabajadorByDniQueNoExiste() throws NumberFormatException, CuilInvalidoExcepcion, DniInvalidoExcepcion, NombreInvalidoExcepcion {
+		Empresa empresa = new Empresa();
+		empresa.obtenerTrabajadorByDni(20544653);
+	}
+	
 }
