@@ -24,8 +24,7 @@ public class MenuConsola {
 	private static boolean salir = false;
 	private static Empresa empresa = new Empresa();
 	/**
-	 * post:
-	 * Inicia el programa
+	 * post: Inicia el programa
 	 */
 	public static void main(String[] args) throws IOException{
 		teclado = new BufferedReader(new InputStreamReader(System.in));
@@ -33,10 +32,7 @@ public class MenuConsola {
 		teclado.close();
 	}
 	/**
-	 * pre: 
-	 * 
-	 * post:
-	 * Metodo en el cual se muestra al menu principal
+	 * post: Metodo en el cual se muestra al menu principal
 	 */
 	private static void seleccionadorDeMenu(){	
 		do{
@@ -69,10 +65,7 @@ public class MenuConsola {
 		}while(!salir);
 	}
 	/**
-	 * pre: 
-	 * 
-	 * post:
-	 * 
+	 * post: Engresa al menu de alta de trabajador
 	 */
 	private static void crearTrabajador() throws IOException{		
 		do{
