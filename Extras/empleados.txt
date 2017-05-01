@@ -1,1 +1,2 @@
-0.Tipo: Empleado Nombre: Franco Cuil: 20389919110 Sueldo: 15000.0 
+0.Tipo: Empleado Nombre: matias Cuil: 23395606302 Sueldo: 21000.0 
+1.Tipo: Empleado Nombre: franco Cuil: 20389919111 Sueldo: 20000.0 

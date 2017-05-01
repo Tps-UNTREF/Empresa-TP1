@@ -1,21 +1,21 @@
 package Clases;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 import Excepciones.DniInvalidoExcepcion;
 
 public class Empresa {
 	
-	private Map<Integer, Trabajador> trabajadores = new TreeMap<Integer, Trabajador>();
+	private Map<Integer, Trabajador> trabajadores = new HashMap<Integer, Trabajador>();
 	
 	public Empresa() { }
 	/**
 	 * post:Devuelve la lista de trabajadores actuales
 	 */
-	public List<Trabajador> getTrabajadores() {
-		return (List<Trabajador>) trabajadores.values();
+	public Map<Integer, Trabajador> getTrabajadores() {
+		return trabajadores;
 	}
 	/**
 	 * pre:trabajadores=Lista de trabajadores con Dni distintos
@@ -26,6 +26,7 @@ public class Empresa {
 			this.trabajadores.put(t.getDni(), t);
 		}
 	}
+
 	/**
 	 * pre:newTrabajador=Trabajador que no se encuentra cargado en la empresa
 	 * post:True si carga el trabajador. False si ya hay un trabajador con ese Dni

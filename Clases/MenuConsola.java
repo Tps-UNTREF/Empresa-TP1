@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Map.Entry;
 
 import Excepciones.CuilInvalidoExcepcion;
 import Excepciones.DniInvalidoExcepcion;
@@ -310,9 +311,9 @@ public class MenuConsola {
 	 */
 	public static void listarSueldoDeTrabajadores() throws IOException{
 		ArrayList<Empleado> empleados = new ArrayList<>();
-		for(Trabajador t : empresa.getTrabajadores()){
-			if(t instanceof Empleado){
-				empleados.add((Empleado)t);
+		for(Entry<Integer, Trabajador> t : empresa.getTrabajadores().entrySet()){
+			if(t.getValue() instanceof Empleado){
+				empleados.add((Empleado)t.getValue());
 			}
 		}
 		Collections.sort(empleados);
@@ -324,10 +325,10 @@ public class MenuConsola {
 			System.out.println(i+"."+e.toString());
 			i++;
 		}
-		for(Trabajador t: empresa.getTrabajadores()){
-			if(t instanceof Voluntario){
-				fw.write(i+"."+t.toString()+" \n");
-				System.out.println(i+"."+t.toString());
+		for(Entry<Integer, Trabajador> t : empresa.getTrabajadores().entrySet()){
+			if(t.getValue() instanceof Voluntario){
+				fw.write(i+"."+t.getValue().toString()+" \n");
+				System.out.println(i+"."+t.getValue().toString());
 				i++;
 			}
 		}
