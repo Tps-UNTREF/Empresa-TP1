@@ -24,8 +24,7 @@ public class MenuConsola {
 	private static boolean salir = false;
 	private static Empresa empresa = new Empresa();
 	/**
-	 * post:
-	 * Inicia el programa
+	 * post: Inicia el programa
 	 */
 	public static void main(String[] args) throws IOException{
 		teclado = new BufferedReader(new InputStreamReader(System.in));
@@ -33,7 +32,6 @@ public class MenuConsola {
 		teclado.close();
 	}
 	/**
-
 	 * post:
 	 * Metodo en el cual se muestra al menu principal
 	 * @throws HorasTrabajadasInvalidasExcepcion 
@@ -130,10 +128,7 @@ public class MenuConsola {
 		teclado.readLine();
 	}
 	/**
-	 * pre: 
-	 * 
-	 * post:
-	 * 
+	 * post: Engresa al menu de alta de trabajador
 	 */
 	private static void crearTrabajador() throws IOException{		
 		do{

@@ -3,7 +3,7 @@ package Clases;
 import Excepciones.DniInvalidoExcepcion;
 import Excepciones.NombreInvalidoExcepcion;
 
-abstract class Trabajador{
+public abstract class Trabajador{
 	
 	private String nombre;
 	private int dni;
